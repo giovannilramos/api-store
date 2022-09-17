@@ -31,6 +31,8 @@ public class Product {
 
     @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
+    private String brand;
     @Lob
     private String description;
     @Column(nullable = false)

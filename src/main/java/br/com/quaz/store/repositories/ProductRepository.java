@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
+    Boolean existsByNameIgnoreCaseAndBrand(final String name, final String brand);
 }
