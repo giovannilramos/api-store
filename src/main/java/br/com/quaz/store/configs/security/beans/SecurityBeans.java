@@ -1,4 +1,4 @@
-package br.com.quaz.store.security.config;
+package br.com.quaz.store.configs.security.beans;
 
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityBeans {
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -18,8 +17,7 @@ public class SecurityBeans {
 
     @SneakyThrows
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
+    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration) {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 }

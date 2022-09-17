@@ -1,35 +1,29 @@
-package br.com.quaz.store.security;
+package br.com.quaz.store.configs.security;
 
-import br.com.quaz.store.user.JwtUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.quaz.store.configs.security.filters.JsonObjectAuthenticationFilter;
+import br.com.quaz.store.configs.security.filters.JwtAuthorizationFilter;
+import br.com.quaz.store.configs.security.service.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
-import javax.transaction.Transactional;
-
 @Configuration
-public class JwtTutorialSecurity {
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+@RequiredArgsConstructor
+public class SecurityConfig {
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsServiceImpl userDetailsService;
     private final AuthSuccessHandler authSuccessHandler;
-    private final JwtUserDetailsService jwtUserDetailsService;
-    private final String secret;
-
-    public JwtTutorialSecurity(AuthSuccessHandler authSuccessHandler, JwtUserDetailsService jwtUserDetailsService, @Value("${jwt.secret}") String secret) {
-        this.authSuccessHandler = authSuccessHandler;
-        this.jwtUserDetailsService = jwtUserDetailsService;
-        this.secret = secret;
-    }
+    @Value("${jwt.secret}")
+    private String secret;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,14 +35,18 @@ public class JwtTutorialSecurity {
                 .authorizeHttpRequests((auth) -> {
                     try {
                         auth
-                                .antMatchers("/products").hasRole("USER")
-                                .antMatchers("/category").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/products").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.PUT, "/products").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.POST, "/category").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/category").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.GET).permitAll()
                                 .anyRequest().permitAll()
                                 .and()
                                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                                 .and()
                                 .addFilter(authenticationFilter())
-                                .addFilter(new JwtAuthorizationFilter(authenticationManager, jwtUserDetailsService, secret))
+                                .addFilter(new JwtAuthorizationFilter(authenticationManager, userDetailsService, secret))
                                 .exceptionHandling()
                                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
                     } catch (Exception e) {
@@ -60,11 +58,10 @@ public class JwtTutorialSecurity {
     }
 
     @Bean
-    public JsonObjectAuthenticationFilter authenticationFilter() throws Exception {
-        JsonObjectAuthenticationFilter filter = new JsonObjectAuthenticationFilter();
+    public JsonObjectAuthenticationFilter authenticationFilter() {
+        final var filter = new JsonObjectAuthenticationFilter();
         filter.setAuthenticationSuccessHandler(authSuccessHandler);
         filter.setAuthenticationManager(authenticationManager);
         return filter;
     }
-
 }

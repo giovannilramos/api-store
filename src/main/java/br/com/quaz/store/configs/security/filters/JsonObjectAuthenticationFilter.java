@@ -1,38 +1,35 @@
-package br.com.quaz.store.security;
+package br.com.quaz.store.configs.security.filters;
 
-import br.com.quaz.store.security.domain.LoginCredentials;
+import br.com.quaz.store.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) throws AuthenticationException {
+        final ObjectMapper objectMapper = new ObjectMapper();
         try {
-            BufferedReader reader = request.getReader();
-            StringBuilder sb = new StringBuilder();
+            final var buffer = request.getReader();
+            final var sb = new StringBuilder();
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = buffer.readLine()) != null) {
                 sb.append(line);
             }
-            LoginCredentials authRequest = objectMapper.readValue(sb.toString(), LoginCredentials.class);
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    authRequest.getEmail(), authRequest.getPassword()
-            );
+            final var authRequest = objectMapper.readValue(sb.toString(), LoginRequest.class);
+            final var token = new UsernamePasswordAuthenticationToken(authRequest.getIdentification(), authRequest.getPassword());
+
             setDetails(request, token);
+
             return this.getAuthenticationManager().authenticate(token);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
