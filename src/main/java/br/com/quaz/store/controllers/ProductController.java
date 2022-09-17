@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,27 +49,23 @@ public class ProductController {
                 .body(listProductService.listProducts(pageable, category, name, isPromotion));
     }
 
-    @PreAuthorize("permitAll()")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> findProductById(@PathVariable(name = "id") final UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(getProductService.findProductById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable(name = "id") final UUID id, @RequestBody final ProductRequest productRequest) {
         updateProductService.updateProduct(id, productRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> createProduct(@RequestBody final ProductRequest productRequest) {
         createProductService.createProduct(productRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") final UUID id) {
         deleteProductService.deleteProduct(id);
