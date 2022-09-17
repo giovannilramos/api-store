@@ -1,5 +1,6 @@
 package br.com.quaz.store.services;
 
+import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.request.ProductRequest;
@@ -18,6 +19,9 @@ public class UpdateProductService {
 
     public void updateProduct(final UUID uuid, final ProductRequest productRequest) {
         final var product = productRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Product not found", StatusCode.NOT_FOUND.getStatusCode()));
+        if (productRepository.existsByNameIgnoreCaseAndBrand(productRequest.getName(), productRequest.getBrand())) {
+            throw new AlreadyExistsException("Product already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+        }
 
         setProductEntity(product, productRequest);
 

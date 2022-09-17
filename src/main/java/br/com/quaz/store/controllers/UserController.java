@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -29,9 +30,9 @@ public class UserController {
     private final UpdateUserService updateUserService;
     private final GetUserService getUserService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findUserById(@PathVariable(name = "id") final UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(getUserService.findUserById(id));
+    @GetMapping
+    public ResponseEntity<UserResponse> findUserById(@RequestParam(name = "identification") final String identification) {
+        return ResponseEntity.status(HttpStatus.OK).body(getUserService.findLoggedUser(identification));
     }
 
     @PutMapping("/{id}")
