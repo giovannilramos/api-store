@@ -26,6 +26,7 @@ public class GetProductService {
         productResponse.setDiscount(product.getDiscount());
         productResponse.setImage(product.getImage());
         productResponse.setCategory(product.getCategory());
+        productResponse.setBrand(product.getBrand());
 
         return productResponse;
     }

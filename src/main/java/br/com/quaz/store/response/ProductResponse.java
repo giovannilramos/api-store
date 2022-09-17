@@ -15,5 +15,6 @@ public class ProductResponse {
     private Boolean isPromotion;
     private Integer discount;
     private String image;
+    private String brand;
     private Category category;
 }
