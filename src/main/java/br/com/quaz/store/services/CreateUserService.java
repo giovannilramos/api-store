@@ -3,6 +3,7 @@ package br.com.quaz.store.services;
 import br.com.quaz.store.entities.User;
 import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
+import br.com.quaz.store.repositories.RolesRepository;
 import br.com.quaz.store.repositories.UserRepository;
 import br.com.quaz.store.request.UserRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import static br.com.quaz.store.helper.UserHelper.setUserEntity;
 @RequiredArgsConstructor
 public class CreateUserService {
     private final UserRepository userRepository;
+    private final RolesRepository rolesRepository;
 
     public void createUser(final UserRequest userRequest) {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
@@ -24,7 +26,7 @@ public class CreateUserService {
         }
         final var user = new User();
 
-        setUserEntity(user, userRequest);
+        setUserEntity(user, userRequest, rolesRepository);
 
         userRepository.save(user);
     }

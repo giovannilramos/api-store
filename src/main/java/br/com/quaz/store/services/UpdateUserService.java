@@ -8,15 +8,23 @@ import br.com.quaz.store.request.UpdateUserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
 
 @Service
 @AllArgsConstructor
 public class UpdateUserService {
     private final UserRepository userRepository;
 
-    public void updateUser(final UUID uuid, final UpdateUserRequest updateUserRequest) {
-        final var user = userRepository.findById(uuid).orElseThrow(() -> new NotFoundException("User not found", StatusCode.NOT_FOUND.getStatusCode()));
+    public void updateUser(final String jwtToken, final UpdateUserRequest updateUserRequest) {
+        final var sub = decoderTokenJwt(jwtToken);
+        var userOptional = userRepository.findByEmail(sub);
+
+        if (userOptional.isEmpty()) {
+            userOptional = userRepository.findByUsername(sub);
+            if (userOptional.isEmpty()) {
+                throw new NotFoundException("User not found", StatusCode.NOT_FOUND.getStatusCode());
+            }
+        }
 
         if (userRepository.existsByUsername(updateUserRequest.getUsername())) {
             throw new AlreadyExistsException("Username already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
@@ -24,6 +32,8 @@ public class UpdateUserService {
         if (userRepository.existsByEmail(updateUserRequest.getEmail())) {
             throw new AlreadyExistsException("E-mail already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
         }
+
+        final var user = userOptional.get();
 
         user.setName(updateUserRequest.getName());
         user.setEmail(updateUserRequest.getEmail());

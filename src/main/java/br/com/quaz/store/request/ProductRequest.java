@@ -1,9 +1,9 @@
 package br.com.quaz.store.request;
 
-import br.com.quaz.store.entities.Category;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 public class ProductRequest {
@@ -14,5 +14,5 @@ public class ProductRequest {
     private Boolean isPromotion;
     private Integer discount;
     private String image;
-    private Category category;
+    private UUID categoryUuid;
 }

@@ -3,6 +3,7 @@ package br.com.quaz.store.services;
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
+import br.com.quaz.store.repositories.CategoryRepository;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.request.ProductRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import static br.com.quaz.store.helper.ProductHelper.setProductEntity;
 @RequiredArgsConstructor
 public class CreateProductService {
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     public void createProduct(final ProductRequest productRequest) {
         if (productRepository.existsByNameIgnoreCaseAndBrand(productRequest.getName(), productRequest.getBrand())) {
@@ -21,7 +23,7 @@ public class CreateProductService {
         }
         final var product = new Product();
 
-        setProductEntity(product, productRequest);
+        setProductEntity(product, productRequest, categoryRepository);
 
         productRepository.save(product);
     }

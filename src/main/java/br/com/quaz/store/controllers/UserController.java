@@ -11,15 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,13 +28,13 @@ public class UserController {
     private final GetUserService getUserService;
 
     @GetMapping
-    public ResponseEntity<UserResponse> findUserById(@RequestParam(name = "identification") final String identification) {
-        return ResponseEntity.status(HttpStatus.OK).body(getUserService.findLoggedUser(identification));
+    public ResponseEntity<UserResponse> findUser(@RequestHeader(name = "Authorization") final String jwtToken) {
+        return ResponseEntity.status(HttpStatus.OK).body(getUserService.findLoggedUser(jwtToken));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable(name = "id") final UUID id, @RequestBody final UpdateUserRequest updateUserRequest) {
-        updateUserService.updateUser(id, updateUserRequest);
+    @PutMapping
+    public ResponseEntity<Void> updateUser(@RequestHeader(name = "Authorization") final String jwtToken, @RequestBody final UpdateUserRequest updateUserRequest) {
+        updateUserService.updateUser(jwtToken, updateUserRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

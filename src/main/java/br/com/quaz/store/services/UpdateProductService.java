@@ -2,6 +2,7 @@ package br.com.quaz.store.services;
 
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
+import br.com.quaz.store.repositories.CategoryRepository;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.request.ProductRequest;
 import br.com.quaz.store.enums.StatusCode;
@@ -16,6 +17,7 @@ import static br.com.quaz.store.helper.ProductHelper.setProductEntity;
 @AllArgsConstructor
 public class UpdateProductService {
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     public void updateProduct(final UUID uuid, final ProductRequest productRequest) {
         final var product = productRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Product not found", StatusCode.NOT_FOUND.getStatusCode()));
@@ -23,7 +25,7 @@ public class UpdateProductService {
             throw new AlreadyExistsException("Product already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
         }
 
-        setProductEntity(product, productRequest);
+        setProductEntity(product, productRequest, categoryRepository);
 
         productRepository.save(product);
     }
