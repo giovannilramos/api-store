@@ -2,19 +2,12 @@ package br.com.quaz.store.entities;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -29,10 +22,12 @@ public class WishList {
     private UUID uuid;
 
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @OneToMany
-    private List<Product> product;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Product product;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
