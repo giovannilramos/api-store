@@ -3,13 +3,20 @@ package br.com.quaz.store.controllers;
 import br.com.quaz.store.response.ProductsListResponse;
 import br.com.quaz.store.services.AddRemoveToWishListService;
 import br.com.quaz.store.services.GetWishListService;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,8 +30,8 @@ public class WishListController {
     private final GetWishListService getWishListService;
 
     @PostMapping
-    public ResponseEntity<Void> addRemoveToWishList(@RequestHeader("Authorization") final String jwtToken, @RequestParam final String productUuid) {
-        addRemoveToWishListService.addRemoveToWishList(jwtToken, UUID.fromString(productUuid));
+    public ResponseEntity<Void> addRemoveToWishList(@RequestHeader("Authorization") final String jwtToken, @RequestBody final JsonNode productUuid) {
+        addRemoveToWishListService.addRemoveToWishList(jwtToken, UUID.fromString(productUuid.get("productUuid").asText()));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
