@@ -1,7 +1,7 @@
 package br.com.quaz.store.configs.security.service;
 
 import br.com.quaz.store.enums.StatusCode;
-import br.com.quaz.store.exceptions.UnauthorizedExistsException;
+import br.com.quaz.store.exceptions.UnauthorizedException;
 import br.com.quaz.store.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByUsername(login);
             if (userOptional.isEmpty()) {
-                throw new UnauthorizedExistsException("Login not found", StatusCode.UNAUTHORIZED.getStatusCode());
+                throw new UnauthorizedException("Login not found", StatusCode.UNAUTHORIZED.getStatusCode());
             }
         }
         final var user = userOptional.get();

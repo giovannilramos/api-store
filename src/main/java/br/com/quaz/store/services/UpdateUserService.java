@@ -26,14 +26,18 @@ public class UpdateUserService {
             }
         }
 
-        if (userRepository.existsByUsername(updateUserRequest.getUsername())) {
-            throw new AlreadyExistsException("Username already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
-        }
-        if (userRepository.existsByEmail(updateUserRequest.getEmail())) {
-            throw new AlreadyExistsException("E-mail already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
-        }
-
         final var user = userOptional.get();
+
+        if (!user.getEmail().equals(updateUserRequest.getEmail())) {
+            if (userRepository.existsByEmail(updateUserRequest.getEmail())) {
+                throw new AlreadyExistsException("E-mail already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+            }
+        }
+        if (!user.getUsername().equals(updateUserRequest.getUsername())) {
+            if (userRepository.existsByUsername(updateUserRequest.getUsername())) {
+                throw new AlreadyExistsException("Username already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+            }
+        }
 
         user.setName(updateUserRequest.getName());
         user.setEmail(updateUserRequest.getEmail());
