@@ -1,7 +1,6 @@
 package br.com.quaz.store.services;
 
 import br.com.quaz.store.entities.Category;
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.repositories.CategoryRepository;
 import br.com.quaz.store.request.CategoryRequest;
@@ -15,7 +14,7 @@ public class CreateCategoryService {
 
     public void createCategory(final CategoryRequest categoryRequest) {
         if (categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())) {
-            throw new AlreadyExistsException("Category already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+            throw new AlreadyExistsException("Category already exists");
         }
         final var category = new Category();
 

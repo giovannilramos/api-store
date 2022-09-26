@@ -1,6 +1,5 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.UserRepository;
 import br.com.quaz.store.response.UserResponse;
@@ -21,7 +20,7 @@ public class GetUserService {
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByUsername(sub);
             if (userOptional.isEmpty()) {
-                throw new NotFoundException("User not found", StatusCode.NOT_FOUND.getStatusCode());
+                throw new NotFoundException("User not found");
             }
         }
         final var user = userOptional.get();

@@ -1,6 +1,5 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.RolesRepository;
@@ -20,10 +19,10 @@ public class CreateUserService {
 
     public void createUser(final UserRequest userRequest) {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
-            throw new AlreadyExistsException("Username already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+            throw new AlreadyExistsException("Username already exists");
         }
         if (userRepository.existsByEmail(userRequest.getEmail())) {
-            throw new AlreadyExistsException("E-mail already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+            throw new AlreadyExistsException("E-mail already exists");
         }
 
         setUserEntity(userRequest, rolesRepository, userRepository, addressRepository);

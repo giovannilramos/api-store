@@ -1,6 +1,5 @@
 package br.com.quaz.store.configs.security.service;
 
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.UnauthorizedException;
 import br.com.quaz.store.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByUsername(login);
             if (userOptional.isEmpty()) {
-                throw new UnauthorizedException("Login not found", StatusCode.UNAUTHORIZED.getStatusCode());
+                throw new UnauthorizedException("Login not found");
             }
         }
         final var user = userOptional.get();

@@ -1,7 +1,6 @@
 package br.com.quaz.store.services;
 
 import br.com.quaz.store.entities.WishList;
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.UserRepository;
@@ -23,14 +22,14 @@ public class AddRemoveToWishListService {
     public void addRemoveToWishList(final String jwtToken, final UUID productUuid) {
         final var product = productRepository.findById(productUuid)
                 .orElseThrow(() ->
-                        new NotFoundException("Product not found", StatusCode.NOT_FOUND.getStatusCode()));
+                        new NotFoundException("Product not found"));
         final var sub = decoderTokenJwt(jwtToken);
         var userOptional = userRepository.findByEmail(sub);
 
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByUsername(sub);
             if (userOptional.isEmpty()) {
-                throw new NotFoundException("User not found", StatusCode.NOT_FOUND.getStatusCode());
+                throw new NotFoundException("User not found");
             }
         }
         final var user = userOptional.get();
@@ -38,7 +37,7 @@ public class AddRemoveToWishListService {
 
         if (wishListExists) {
             final var wishList = wishListRepository.findByUserAndProduct(userOptional.get(), product)
-                    .orElseThrow(() -> new NotFoundException("Item not found", StatusCode.NOT_FOUND.getStatusCode()));
+                    .orElseThrow(() -> new NotFoundException("Item not found"));
             wishListRepository.delete(wishList);
         } else {
             final var wishList = new WishList();

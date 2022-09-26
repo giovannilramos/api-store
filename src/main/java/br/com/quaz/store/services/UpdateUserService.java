@@ -1,6 +1,5 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.UserRepository;
@@ -22,7 +21,7 @@ public class UpdateUserService {
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByUsername(sub);
             if (userOptional.isEmpty()) {
-                throw new NotFoundException("User not found", StatusCode.NOT_FOUND.getStatusCode());
+                throw new NotFoundException("User not found");
             }
         }
 
@@ -30,12 +29,12 @@ public class UpdateUserService {
 
         if (!user.getEmail().equals(updateUserRequest.getEmail())) {
             if (userRepository.existsByEmail(updateUserRequest.getEmail())) {
-                throw new AlreadyExistsException("E-mail already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+                throw new AlreadyExistsException("E-mail already exists");
             }
         }
         if (!user.getUsername().equals(updateUserRequest.getUsername())) {
             if (userRepository.existsByUsername(updateUserRequest.getUsername())) {
-                throw new AlreadyExistsException("Username already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+                throw new AlreadyExistsException("Username already exists");
             }
         }
 

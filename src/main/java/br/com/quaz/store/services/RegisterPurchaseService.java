@@ -2,7 +2,6 @@ package br.com.quaz.store.services;
 
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.entities.Purchase;
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.ProductRepository;
@@ -27,14 +26,14 @@ public class RegisterPurchaseService {
     public void registerPurchase(final String jwtToken, final PurchaseRequest purchaseRequest) {
         final var address = addressRepository.findById(purchaseRequest.getAddressUuid())
                 .orElseThrow(() ->
-                        new NotFoundException("Address not found", StatusCode.NOT_FOUND.getStatusCode()));
+                        new NotFoundException("Address not found"));
         final var sub = decoderTokenJwt(jwtToken);
 
         var userOptional = userRepository.findByEmail(sub);
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByUsername(sub);
             if (userOptional.isEmpty()) {
-                throw new NotFoundException("User not found", StatusCode.NOT_FOUND.getStatusCode());
+                throw new NotFoundException("User not found");
             }
         }
         final var productList = productRepository.findAllByUuidIn(purchaseRequest.getProductUuidList());

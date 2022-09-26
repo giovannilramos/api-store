@@ -2,7 +2,6 @@ package br.com.quaz.store.services;
 
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.CategoryRepository;
-import br.com.quaz.store.enums.StatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ public class DeleteCategoryService {
     private final CategoryRepository categoryRepository;
 
     public void deleteCategory(final UUID uuid) {
-        final var category  = categoryRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Category not found", StatusCode.NOT_FOUND.getStatusCode()));
+        final var category  = categoryRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Category not found"));
         categoryRepository.delete(category);
     }
 }

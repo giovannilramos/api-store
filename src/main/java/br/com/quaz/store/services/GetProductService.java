@@ -3,7 +3,6 @@ package br.com.quaz.store.services;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.response.ProductResponse;
-import br.com.quaz.store.enums.StatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ public class GetProductService {
     private final ProductRepository productRepository;
 
     public ProductResponse findProductById(final UUID uuid) {
-        final var product  = productRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Product not found", StatusCode.NOT_FOUND.getStatusCode()));
+        final var product  = productRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Product not found"));
         final var productResponse = new ProductResponse();
 
         productResponse.setUuid(product.getUuid());

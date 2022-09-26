@@ -3,7 +3,6 @@ package br.com.quaz.store.helper;
 import br.com.quaz.store.dto.JwtPayload;
 import br.com.quaz.store.entities.Address;
 import br.com.quaz.store.entities.User;
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.RolesRepository;
@@ -36,7 +35,7 @@ public class UserHelper {
 
         final var userRegistered = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(() ->
-                        new NotFoundException("User not found", StatusCode.NOT_FOUND.getStatusCode()));
+                        new NotFoundException("User not found"));
 
         address.setCep(userRequest.getCep());
         address.setNumber(userRequest.getNumber());

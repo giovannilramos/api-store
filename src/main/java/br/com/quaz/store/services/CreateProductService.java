@@ -1,7 +1,6 @@
 package br.com.quaz.store.services;
 
 import br.com.quaz.store.entities.Product;
-import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.repositories.CategoryRepository;
 import br.com.quaz.store.repositories.ProductRepository;
@@ -19,7 +18,7 @@ public class CreateProductService {
 
     public void createProduct(final ProductRequest productRequest) {
         if (productRepository.existsByNameIgnoreCaseAndBrand(productRequest.getName(), productRequest.getBrand())) {
-            throw new AlreadyExistsException("Product already exists", StatusCode.ALREADY_EXISTS.getStatusCode());
+            throw new AlreadyExistsException("Product already exists");
         }
         final var product = new Product();
 
