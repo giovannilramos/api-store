@@ -1,5 +1,6 @@
 package br.com.quaz.store.entities;
 
+import br.com.quaz.store.enums.PaypalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,14 +11,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -34,8 +35,8 @@ public class Purchase {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger purchaseNumber;
+    @Column(nullable = false)
+    private String purchaseNumber;
 
     @Column(nullable = false)
     private BigDecimal totalAmount;
@@ -43,6 +44,8 @@ public class Purchase {
     /*TODO: Estágios da compra*/
     /*@Column(nullable = false)
     private Map<String, String> status;*/
+    @Enumerated(EnumType.STRING)
+    private PaypalStatus status;
 
     @OneToOne
     private Address address;
