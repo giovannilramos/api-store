@@ -39,6 +39,7 @@ public class ListPurchaseService {
             purchaseResponse.setAddress(purchase.getAddress());
             purchaseResponse.setUuid(purchase.getUuid());
             purchaseResponse.setPurchaseNumber(purchase.getPurchaseNumber());
+            purchaseResponse.setStatus(purchase.getStatus());
             purchaseResponse.setTotalAmount(purchase.getTotalAmount());
             purchaseResponse.setUser(purchase.getUser());
             purchaseResponse.setProductList(purchase.getProductList());

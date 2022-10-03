@@ -3,10 +3,10 @@ package br.com.quaz.store.response;
 import br.com.quaz.store.entities.Address;
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.entities.User;
+import br.com.quaz.store.enums.PaypalStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -17,8 +17,9 @@ public class PurchaseResponse {
     /*private Map<String, String> status;*/
     private Address address;
     private UUID uuid;
-    private BigInteger purchaseNumber;
+    private String purchaseNumber;
     private BigDecimal totalAmount;
+    private PaypalStatus status;
     private User user;
     private List<Product> productList;
     private LocalDateTime createdAt;
