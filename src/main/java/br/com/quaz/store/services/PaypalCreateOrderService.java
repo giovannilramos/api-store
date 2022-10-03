@@ -30,6 +30,8 @@ public class PaypalCreateOrderService {
     private final UserRepository userRepository;
 
     public OrderResponse createOrder(final String jwtToken,  final PurchaseRequest purchaseRequest) {
+        /*TODO: Alterar request para montar o Json dinamico com as informações dos produtos encontradas
+        *  no banco*/
         final var address = addressRepository.findById(purchaseRequest.getAddressUuid())
                 .orElseThrow(() ->
                         new NotFoundException("Address not found"));
@@ -43,11 +45,9 @@ public class PaypalCreateOrderService {
             }
         }
         final var productList = productRepository.findAllByUuidIn(purchaseRequest.getProductUuidList());
-
-
-
         final var paypalResponse = paypalIntegration.createOrder(purchaseRequest.getPaypalRequest());
         final var orderResponse = new OrderResponse();
+
         try {
             final var id = paypalResponse.get("id").asText();
             final var status = PaypalStatus.valueOf(paypalResponse.get("status").asText());
