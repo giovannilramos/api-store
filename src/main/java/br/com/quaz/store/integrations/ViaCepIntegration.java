@@ -1,4 +1,4 @@
-package br.com.quaz.store.viaCepIntegration;
+package br.com.quaz.store.integrations;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.cloud.openfeign.FeignClient;

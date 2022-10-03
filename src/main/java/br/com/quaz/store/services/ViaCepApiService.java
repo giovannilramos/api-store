@@ -1,7 +1,7 @@
 package br.com.quaz.store.services;
 
 import br.com.quaz.store.response.AddressResponse;
-import br.com.quaz.store.viaCepIntegration.ViaCepIntegration;
+import br.com.quaz.store.integrations.ViaCepIntegration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
