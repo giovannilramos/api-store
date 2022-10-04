@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 .antMatchers("/wish-list").hasRole("USER")
                                 .antMatchers("/wish-list/**").hasRole("USER")
                                 .antMatchers("/purchase").hasRole("USER")
+                                .antMatchers("/paypal/**").hasRole("USER")
                                 .antMatchers(HttpMethod.GET).permitAll()
                                 .anyRequest().permitAll()
                                 .and()

@@ -35,7 +35,7 @@ public class Purchase {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String purchaseNumber;
 
     @Column(nullable = false)
