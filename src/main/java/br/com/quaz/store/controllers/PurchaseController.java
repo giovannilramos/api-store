@@ -3,7 +3,6 @@ package br.com.quaz.store.controllers;
 import br.com.quaz.store.request.PurchaseRequest;
 import br.com.quaz.store.response.PurchaseResponse;
 import br.com.quaz.store.services.ListPurchaseService;
-import br.com.quaz.store.services.RegisterPurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,16 +25,9 @@ import java.util.List;
 @RequestMapping("/purchase")
 public class PurchaseController {
     private final ListPurchaseService listPurchaseService;
-    private final RegisterPurchaseService registerPurchaseService;
 
     @GetMapping
     public ResponseEntity<List<PurchaseResponse>> find(@RequestHeader(name = "Authorization") final String jwtToken, @PageableDefault(direction = Sort.Direction.DESC) final Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(listPurchaseService.purchaseList(jwtToken, pageable));
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> registerPurchase(@RequestHeader(name = "Authorization") final String jwtToken, @RequestBody final PurchaseRequest purchaseRequest) {
-        registerPurchaseService.registerPurchase(jwtToken, purchaseRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
