@@ -13,13 +13,13 @@ import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
 import br.com.quaz.store.request.PurchaseRequest;
 import br.com.quaz.store.response.OrderResponse;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.stream.Collectors;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
@@ -54,27 +54,35 @@ public class PaypalCreateOrderService {
             paypalItems.setName(product.getName());
             paypalItems.setDescription(product.getDescription());
             paypalItems.setQuantity("1");
-            paypalItems.setUnitAmount(new UnitAmount("BRL", product.getPrice().toString()));
+            paypalItems.setUnitAmount(
+                    new UnitAmount("BRL", product.getIsPromotion() ?
+                            (product.getPrice()
+                                    .multiply(BigDecimal.valueOf(product.getDiscount()))
+                                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)).toString() :
+                            product.getPrice().toString()));
             return paypalItems;
         }).collect(Collectors.toList());
+
         final var orderResponse = new OrderResponse();
         final var mapper = new ObjectMapper();
-        final String paypalRequest;
-        final JsonNode paypalResponse;
+
         try {
             final var itemsMapped = mapper.writeValueAsString(items);
-            paypalRequest = "{\n" +
+            final var totalAmount = productList.stream().map(Product::getPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            final var paypalRequest = "{\n" +
                     "        \"intent\": \"CAPTURE\",\n" +
                     "        \"purchase_units\": [\n" +
                     "            {\n" +
                     "                \"items\": " + itemsMapped + ",\n" +
                     "                \"amount\": {\n" +
                     "                    \"currency_code\": \"BRL\",\n" +
-                    "                    \"value\": \"859.98\",\n" +
+                    "                    \"value\": " + totalAmount + ",\n" +
                     "                    \"breakdown\": {\n" +
                     "                        \"item_total\": {\n" +
                     "                            \"currency_code\": \"BRL\",\n" +
-                    "                            \"value\": \"859.98\"\n" +
+                    "                            \"value\": " + totalAmount + "\n" +
                     "                        }\n" +
                     "                    }\n" +
                     "                }\n" +
@@ -82,15 +90,12 @@ public class PaypalCreateOrderService {
                     "        ]\n" +
                     "    }";
 
-            final var jsonRequest = mapper.readTree(paypalRequest);
-            paypalResponse = paypalIntegration.createOrder(jsonRequest);
+            final var paypalResponse = paypalIntegration.createOrder(mapper.readTree(paypalRequest));
 
             final var id = paypalResponse.get("id").asText();
             final var status = PaypalStatus.valueOf(paypalResponse.get("status").asText());
             final var link = paypalResponse.get("links").get(1).get("href").asText();
             final var purchase = new Purchase();
-            final var totalAmount = productList.stream().map(Product::getPrice)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             purchase.setAddress(address);
             purchase.setProductList(productList);
@@ -104,6 +109,7 @@ public class PaypalCreateOrderService {
             orderResponse.setId(id);
             orderResponse.setStatus(status);
             orderResponse.setLink(link);
+
         } catch (Exception e) {
             log.error("Set order response error: {}", e.getMessage());
         }
