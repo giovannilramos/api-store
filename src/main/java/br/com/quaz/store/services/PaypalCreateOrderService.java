@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
@@ -47,9 +48,10 @@ public class PaypalCreateOrderService {
                 throw new NotFoundException("User not found");
             }
         }
-
-        final var productList = productRepository.findAllByUuidIn(purchaseRequest.getProductUuidList());
-        final var items = productList.stream().map(product -> {
+        final var productList = new ArrayList<Product>();
+        final var items = purchaseRequest.getProductUuidList().stream().map(productRequest -> {
+            final var product = productRepository.findById(productRequest)
+                    .orElseThrow(() -> new NotFoundException("Product not found"));
             final var paypalItems = new PaypalItems();
             paypalItems.setName(product.getName());
             paypalItems.setDescription(product.getDescription());
@@ -60,6 +62,7 @@ public class PaypalCreateOrderService {
                                     .multiply(BigDecimal.valueOf(product.getDiscount()))
                                     .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)).toString() :
                             product.getPrice().toString()));
+            productList.add(product);
             return paypalItems;
         }).collect(Collectors.toList());
 
