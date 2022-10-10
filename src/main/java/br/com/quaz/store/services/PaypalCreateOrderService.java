@@ -58,9 +58,9 @@ public class PaypalCreateOrderService {
             paypalItems.setQuantity("1");
             paypalItems.setUnitAmount(
                     new UnitAmount("BRL", product.getIsPromotion() ?
-                            (product.getPrice()
-                                    .multiply(BigDecimal.valueOf(product.getDiscount()))
-                                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)).toString() :
+                            (product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
+                                            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
+                                    .setScale(2, RoundingMode.HALF_UP)).toString() :
                             product.getPrice().toString()));
             productList.add(product);
             return paypalItems;
@@ -71,7 +71,15 @@ public class PaypalCreateOrderService {
 
         try {
             final var itemsMapped = mapper.writeValueAsString(items);
-            final var totalAmount = productList.stream().map(Product::getPrice)
+            final var totalAmount = productList.stream().map(product -> {
+                        if (product.getIsPromotion()) {
+                            product.setPrice(product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
+                                            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
+                                    .setScale(2, RoundingMode.HALF_UP));
+                            return product.getPrice();
+                        }
+                        return product.getPrice();
+                    })
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             final var paypalRequest = "{\n" +
