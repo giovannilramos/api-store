@@ -1,9 +1,13 @@
 package br.com.quaz.store.configs.security.filters;
 
 import br.com.quaz.store.configs.security.service.UserDetailsServiceImpl;
+import br.com.quaz.store.utils.ApiException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +33,24 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) throws IOException, ServletException {
-        final var auth = getAuthentication(request);
+        UsernamePasswordAuthenticationToken auth = null;
+        try {
+            auth = getAuthentication(request);
+
+        } catch (Exception e) {
+            final var statusCode = HttpStatus.valueOf(401);
+            final var responseStream = response.getOutputStream();
+            final var mapper = new ObjectMapper();
+            final var exception = new ApiException();
+
+            exception.setMessage("Token expired, log in again");
+            exception.setHttpStatus(statusCode);
+
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            mapper.writeValue(responseStream, exception);
+            responseStream.flush();
+        }
         if (Objects.isNull(auth)) {
             chain.doFilter(request, response);
             return;

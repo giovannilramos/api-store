@@ -21,11 +21,11 @@ import java.time.ZonedDateTime;
 @Component
 @RequiredArgsConstructor
 public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    private final UserRepository userRepository;
     @Value("${jwt.expiration}")
     private Integer expTime;
     @Value("${jwt.secret}")
     private String secret;
-    private final UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
@@ -37,6 +37,6 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .sign(Algorithm.HMAC256(secret));
         response.addHeader("Authorization", "Bearer " + token);
         response.addHeader("Content-Type", "application/json");
-        response.getWriter().write("{\"token\": \""+token+"\"}");
+        response.getWriter().write("{\"token\": \"" + token + "\"}");
     }
 }
