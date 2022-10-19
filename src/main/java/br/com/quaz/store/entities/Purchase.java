@@ -43,7 +43,6 @@ public class Purchase {
     @Column(nullable = false)
     private BigDecimal totalAmount;
 
-    /*TODO: Estágios da compra*/
     @Enumerated(EnumType.STRING)
     private PaypalStatus status;
 

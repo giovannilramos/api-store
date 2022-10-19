@@ -19,7 +19,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseResponse {
-    /*TODO: Estágios da compra*/
     private Address address;
     private UUID uuid;
     private String purchaseNumber;
