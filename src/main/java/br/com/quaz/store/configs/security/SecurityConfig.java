@@ -45,7 +45,7 @@ public class SecurityConfig {
                                 .antMatchers(HttpMethod.POST, "/category").hasRole(ADMIN_TAG)
                                 .antMatchers(HttpMethod.DELETE, "/category/**").hasRole(ADMIN_TAG)
                                 .antMatchers(HttpMethod.POST, "/user").permitAll()
-                                .antMatchers("/user", "/wish-list", "/wish-list/**", "/purchase", "/paypal/**").hasRole("USER")
+                                .antMatchers("/user", "/wish-list", "/wish-list/**", "/purchase", "/paypal/**", "/address", "/address/**").hasRole("USER")
                                 .antMatchers(HttpMethod.GET).permitAll()
                                 .anyRequest().permitAll()
                                 .and()

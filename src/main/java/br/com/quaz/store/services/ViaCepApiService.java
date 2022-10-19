@@ -1,6 +1,6 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.response.AddressResponse;
+import br.com.quaz.store.response.ViaCepResponse;
 import br.com.quaz.store.integrations.ViaCepIntegration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 public class ViaCepApiService {
     private final ViaCepIntegration viaCepIntegration;
 
-    public AddressResponse getAddressByCep(final String cep) {
+    public ViaCepResponse getAddressByCep(final String cep) {
         final var jsonAddress = viaCepIntegration.getCep(cep);
 
-        return AddressResponse.builder()
+        return ViaCepResponse.builder()
                 .city(jsonAddress.get("localidade").asText())
                 .state(jsonAddress.get("uf").asText())
                 .complement(jsonAddress.get("complemento").asText())

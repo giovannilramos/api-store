@@ -20,12 +20,4 @@ public class UserRequest {
     private String email;
     private String password;
     private Set<UUID> rolesUuid;
-    private String cep;
-    private String number;
-    private String street;
-    private String district;
-    private String country;
-    private String city;
-    private String state;
-    private String complement;
 }

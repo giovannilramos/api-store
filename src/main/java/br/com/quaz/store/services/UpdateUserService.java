@@ -16,16 +16,8 @@ public class UpdateUserService {
 
     public void updateUser(final String jwtToken, final UpdateUserRequest updateUserRequest) {
         final var sub = decoderTokenJwt(jwtToken);
-        var userOptional = userRepository.findByEmail(sub);
-
-        if (userOptional.isEmpty()) {
-            userOptional = userRepository.findByUsername(sub);
-            if (userOptional.isEmpty()) {
-                throw new NotFoundException("User not found");
-            }
-        }
-
-        final var user = userOptional.get();
+        final var user = userRepository.findByEmail(sub)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         if (!user.getEmail().equals(updateUserRequest.getEmail()) && Boolean.TRUE.equals(userRepository.existsByEmail(updateUserRequest.getEmail()))) {
             throw new AlreadyExistsException("E-mail already exists");

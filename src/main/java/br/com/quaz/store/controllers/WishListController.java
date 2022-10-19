@@ -11,7 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class WishListController {
     private final AddRemoveToWishListService addRemoveToWishListService;
     private final GetWishListService getWishListService;
 
-    @PostMapping
+    @PatchMapping
     public ResponseEntity<Void> addRemoveToWishList(@RequestHeader("Authorization") final String jwtToken, @RequestBody final JsonNode productUuid) {
         addRemoveToWishListService.addRemoveToWishList(jwtToken, UUID.fromString(productUuid.get("productUuid").asText()));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

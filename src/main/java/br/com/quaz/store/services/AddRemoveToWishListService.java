@@ -24,19 +24,13 @@ public class AddRemoveToWishListService {
                 .orElseThrow(() ->
                         new NotFoundException("Product not found"));
         final var sub = decoderTokenJwt(jwtToken);
-        var userOptional = userRepository.findByEmail(sub);
+        var user = userRepository.findByEmail(sub)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        if (userOptional.isEmpty()) {
-            userOptional = userRepository.findByUsername(sub);
-            if (userOptional.isEmpty()) {
-                throw new NotFoundException("User not found");
-            }
-        }
-        final var user = userOptional.get();
         final var wishListExists = wishListRepository.existsWishListByUserAndProduct(user,product);
 
         if (Boolean.TRUE.equals(wishListExists)) {
-            final var wishList = wishListRepository.findByUserAndProduct(userOptional.get(), product)
+            final var wishList = wishListRepository.findByUserAndProduct(user, product)
                     .orElseThrow(() -> new NotFoundException("Item not found"));
             wishListRepository.delete(wishList);
         } else {

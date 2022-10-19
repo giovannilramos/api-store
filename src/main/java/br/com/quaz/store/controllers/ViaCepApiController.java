@@ -1,6 +1,6 @@
 package br.com.quaz.store.controllers;
 
-import br.com.quaz.store.response.AddressResponse;
+import br.com.quaz.store.response.ViaCepResponse;
 import br.com.quaz.store.services.ViaCepApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class ViaCepApiController {
     private final ViaCepApiService viaCepApiService;
 
     @GetMapping("/{cep}")
-    public ResponseEntity<AddressResponse> getAddressByCep(@PathVariable("cep") final String cep) {
+    public ResponseEntity<ViaCepResponse> getAddressByCep(@PathVariable("cep") final String cep) {
         return ResponseEntity.status(HttpStatus.OK).body(viaCepApiService.getAddressByCep(cep));
     }
 

@@ -14,7 +14,8 @@ public class GetProductService {
     private final ProductRepository productRepository;
 
     public ProductResponse findProductById(final UUID uuid) {
-        final var product  = productRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Product not found"));
+        final var product  = productRepository.findById(uuid)
+                .orElseThrow(() -> new NotFoundException("Product not found"));
         return ProductResponse.builder()
                 .uuid(product.getUuid())
                 .name(product.getName())
@@ -23,7 +24,7 @@ public class GetProductService {
                 .isPromotion(product.getIsPromotion())
                 .discount(product.getDiscount())
                 .image(product.getImage())
-                .category(product.getCategory())
+                .category(product.getCategory().getName())
                 .brand(product.getBrand()).build();
     }
 }

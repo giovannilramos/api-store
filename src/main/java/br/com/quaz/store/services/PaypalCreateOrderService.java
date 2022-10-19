@@ -40,14 +40,9 @@ public class PaypalCreateOrderService {
                 .orElseThrow(() ->
                         new NotFoundException("Address not found"));
         final var sub = decoderTokenJwt(jwtToken);
-        var userOptional = userRepository.findByEmail(sub);
+        final var user = userRepository.findByEmail(sub)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        if (userOptional.isEmpty()) {
-            userOptional = userRepository.findByUsername(sub);
-            if (userOptional.isEmpty()) {
-                throw new NotFoundException("User not found");
-            }
-        }
         final var productList = new ArrayList<Product>();
         final var items = purchaseRequest.getProductUuidList().stream().map(productRequest -> {
             final var product = productRepository.findById(productRequest)
@@ -115,7 +110,7 @@ public class PaypalCreateOrderService {
                     .address(address)
                     .productList(productList)
                     .totalAmount(totalAmount)
-                    .user(userOptional.get())
+                    .user(user)
                     .purchaseNumber(id)
                     .status(status).build();
 

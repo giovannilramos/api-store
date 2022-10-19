@@ -1,6 +1,5 @@
 package br.com.quaz.store.response;
 
-import br.com.quaz.store.entities.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,5 +21,5 @@ public class ProductResponse {
     private Integer discount;
     private String image;
     private String brand;
-    private Category category;
+    private String category;
 }
