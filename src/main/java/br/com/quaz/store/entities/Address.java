@@ -2,6 +2,7 @@ package br.com.quaz.store.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TB_ADDRESS")
+@Getter
 public class Address {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
