@@ -1,16 +1,18 @@
 package br.com.quaz.store.utils;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
 
+@Builder(toBuilder = true)
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class ApiException {
+public class ExceptionResponse {
     private String message;
     private HttpStatus httpStatus;
     private ZonedDateTime zonedDateTime;

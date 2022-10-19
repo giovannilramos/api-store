@@ -24,14 +24,12 @@ public class GetUserService {
             }
         }
         final var user = userOptional.get();
-        final var userResponse = new UserResponse();
+        return UserResponse.builder()
+                .uuid(user.getUuid())
+                .name(user.getName())
+                .birthDate(user.getBirthDate())
+                .email(user.getEmail())
+                .username(user.getUsername()).build();
 
-        userResponse.setUuid(user.getUuid());
-        userResponse.setName(user.getName());
-        userResponse.setBirthDate(user.getBirthDate());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setUsername(user.getUsername());
-
-        return userResponse;
     }
 }

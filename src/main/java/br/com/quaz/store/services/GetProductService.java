@@ -15,18 +15,15 @@ public class GetProductService {
 
     public ProductResponse findProductById(final UUID uuid) {
         final var product  = productRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Product not found"));
-        final var productResponse = new ProductResponse();
-
-        productResponse.setUuid(product.getUuid());
-        productResponse.setName(product.getName());
-        productResponse.setDescription(product.getDescription());
-        productResponse.setPrice(product.getPrice());
-        productResponse.setIsPromotion(product.getIsPromotion());
-        productResponse.setDiscount(product.getDiscount());
-        productResponse.setImage(product.getImage());
-        productResponse.setCategory(product.getCategory());
-        productResponse.setBrand(product.getBrand());
-
-        return productResponse;
+        return ProductResponse.builder()
+                .uuid(product.getUuid())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .isPromotion(product.getIsPromotion())
+                .discount(product.getDiscount())
+                .image(product.getImage())
+                .category(product.getCategory())
+                .brand(product.getBrand()).build();
     }
 }

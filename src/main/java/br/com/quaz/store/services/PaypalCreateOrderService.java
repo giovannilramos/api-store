@@ -52,30 +52,35 @@ public class PaypalCreateOrderService {
         final var items = purchaseRequest.getProductUuidList().stream().map(productRequest -> {
             final var product = productRepository.findById(productRequest)
                     .orElseThrow(() -> new NotFoundException("Product not found"));
-            final var paypalItems = new PaypalItems();
-            paypalItems.setName(product.getName());
-            paypalItems.setDescription(product.getDescription());
-            paypalItems.setQuantity("1");
-            paypalItems.setUnitAmount(
-                    new UnitAmount("BRL", product.getIsPromotion() ?
-                            (product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
-                                            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
-                                    .setScale(2, RoundingMode.HALF_UP)).toString() :
-                            product.getPrice().toString()));
+
             productList.add(product);
-            return paypalItems;
+
+            return PaypalItems.builder()
+                    .name(product.getName())
+                    .description(product.getDescription())
+                    .quantity("1")
+                    .unitAmount(UnitAmount.builder().currencyCode("BRL")
+                            .value(Boolean.TRUE.equals(product.getIsPromotion()) ?
+                                    (product
+                                            .getPrice()
+                                            .multiply(BigDecimal.valueOf(1)
+                                                    .subtract(BigDecimal.valueOf(product.getDiscount())
+                                                            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
+                                            .setScale(2, RoundingMode.HALF_UP))
+                                            .toString()
+                                    : product.getPrice().toString()).build()).build();
         }).collect(Collectors.toList());
 
-        final var orderResponse = new OrderResponse();
+        final var orderResponse = OrderResponse.builder().build();
         final var mapper = new ObjectMapper();
 
         try {
             final var itemsMapped = mapper.writeValueAsString(items);
             final var totalAmount = productList.stream().map(product -> {
-                        if (product.getIsPromotion()) {
-                            product.setPrice(product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
+                        if (Boolean.TRUE.equals(product.getIsPromotion())) {
+                            product.toBuilder().price(product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
                                             .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
-                                    .setScale(2, RoundingMode.HALF_UP));
+                                    .setScale(2, RoundingMode.HALF_UP)).build();
                             return product.getPrice();
                         }
                         return product.getPrice();
@@ -106,21 +111,17 @@ public class PaypalCreateOrderService {
             final var id = paypalResponse.get("id").asText();
             final var status = PaypalStatus.valueOf(paypalResponse.get("status").asText());
             final var link = paypalResponse.get("links").get(1).get("href").asText();
-            final var purchase = new Purchase();
-
-            purchase.setAddress(address);
-            purchase.setProductList(productList);
-            purchase.setTotalAmount(totalAmount);
-            purchase.setUser(userOptional.get());
-            purchase.setPurchaseNumber(id);
-            purchase.setStatus(status);
+            final var purchase = Purchase.builder()
+                    .address(address)
+                    .productList(productList)
+                    .totalAmount(totalAmount)
+                    .user(userOptional.get())
+                    .purchaseNumber(id)
+                    .status(status).build();
 
             purchaseRepository.save(purchase);
 
-            orderResponse.setId(id);
-            orderResponse.setStatus(status);
-            orderResponse.setLink(link);
-
+            orderResponse.toBuilder().id(id).status(status).link(link).build();
         } catch (Exception e) {
             log.error("Set order response error: {}", e.getMessage());
         }

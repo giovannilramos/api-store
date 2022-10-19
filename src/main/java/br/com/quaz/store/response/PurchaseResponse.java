@@ -4,17 +4,22 @@ import br.com.quaz.store.entities.Address;
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.entities.User;
 import br.com.quaz.store.enums.PaypalStatus;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Builder(toBuilder = true)
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PurchaseResponse {
     /*TODO: Estágios da compra*/
-    /*private Map<String, String> status;*/
     private Address address;
     private UUID uuid;
     private String purchaseNumber;

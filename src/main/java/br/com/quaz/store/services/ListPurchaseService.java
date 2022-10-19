@@ -34,19 +34,15 @@ public class ListPurchaseService {
 
         final var purchaseList = purchaseRepository.findAllByLoggedUser(user.getEmail(), pageable);
 
-        return purchaseList.stream().map(purchase -> {
-            final var purchaseResponse = new PurchaseResponse();
-            purchaseResponse.setAddress(purchase.getAddress());
-            purchaseResponse.setUuid(purchase.getUuid());
-            purchaseResponse.setPurchaseNumber(purchase.getPurchaseNumber());
-            purchaseResponse.setStatus(purchase.getStatus());
-            purchaseResponse.setTotalAmount(purchase.getTotalAmount());
-            purchaseResponse.setUser(purchase.getUser());
-            purchaseResponse.setProductList(purchase.getProductList());
-            purchaseResponse.setCreatedAt(purchase.getCreatedAt());
-            purchaseResponse.setUpdatedAt(purchase.getUpdatedAt());
-
-            return purchaseResponse;
-        }).collect(Collectors.toList());
+        return purchaseList.stream().map(purchase -> PurchaseResponse.builder()
+                .address(purchase.getAddress())
+                .uuid(purchase.getUuid())
+                .purchaseNumber(purchase.getPurchaseNumber())
+                .status(purchase.getStatus())
+                .totalAmount(purchase.getTotalAmount())
+                .user(purchase.getUser())
+                .productList(purchase.getProductList())
+                .createdAt(purchase.getCreatedAt())
+                .updatedAt(purchase.getUpdatedAt()).build()).collect(Collectors.toList());
     }
 }

@@ -1,10 +1,16 @@
 package br.com.quaz.store.request;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateUserRequest {
     private String name;
     private LocalDate birthDate;

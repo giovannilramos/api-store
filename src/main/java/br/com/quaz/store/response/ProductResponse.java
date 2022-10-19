@@ -1,12 +1,18 @@
 package br.com.quaz.store.response;
 
 import br.com.quaz.store.entities.Category;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Data
+@Builder(toBuilder = true)
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductResponse {
     private UUID uuid;
     private String name;

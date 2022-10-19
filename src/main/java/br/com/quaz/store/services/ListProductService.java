@@ -33,15 +33,12 @@ public class ListProductService {
 
         return listProducts.stream()
                 .filter(f -> !Objects.nonNull(categoryUuid) || categoryUuid.isEmpty() || f.getCategory().getUuid().toString().equals(categoryUuid))
-                .map(productPage -> {
-                    final var productsListResponse = new ProductsListResponse();
-                    productsListResponse.setUuid(productPage.getUuid());
-                    productsListResponse.setName(productPage.getName());
-                    productsListResponse.setPrice(productPage.getPrice());
-                    productsListResponse.setIsPromotion(productPage.getIsPromotion());
-                    productsListResponse.setDiscount(productPage.getDiscount());
-                    productsListResponse.setImage(productPage.getImage());
-                    return productsListResponse;
-                }).collect(Collectors.toList());
+                .map(productPage -> ProductsListResponse.builder()
+                        .uuid(productPage.getUuid())
+                        .name(productPage.getName())
+                        .price(productPage.getPrice())
+                        .isPromotion(productPage.getIsPromotion())
+                        .discount(productPage.getDiscount())
+                        .image(productPage.getImage()).build()).collect(Collectors.toList());
     }
 }

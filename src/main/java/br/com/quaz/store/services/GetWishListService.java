@@ -33,15 +33,12 @@ public class GetWishListService {
 
         final var productList = productRepository.findAllByLoggedUser(user.getEmail(), pageable);
 
-        return productList.stream().map(productPage -> {
-                    final var productsListResponse = new ProductsListResponse();
-                    productsListResponse.setUuid(productPage.getUuid());
-                    productsListResponse.setName(productPage.getName());
-                    productsListResponse.setPrice(productPage.getPrice());
-                    productsListResponse.setIsPromotion(productPage.getIsPromotion());
-                    productsListResponse.setDiscount(productPage.getDiscount());
-                    productsListResponse.setImage(productPage.getImage());
-                    return productsListResponse;
-                }).collect(Collectors.toList());
+        return productList.stream().map(productPage -> ProductsListResponse.builder()
+                .uuid(productPage.getUuid())
+                .name(productPage.getName())
+                .price(productPage.getPrice())
+                .isPromotion(productPage.getIsPromotion())
+                .discount(productPage.getDiscount())
+                .image(productPage.getImage()).build()).collect(Collectors.toList());
     }
 }

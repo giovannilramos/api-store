@@ -1,10 +1,11 @@
 package br.com.quaz.store.configs.security.filters;
 
 import br.com.quaz.store.configs.security.service.UserDetailsServiceImpl;
-import br.com.quaz.store.utils.ApiException;
+import br.com.quaz.store.utils.ExceptionResponse;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,10 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Objects;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
@@ -32,7 +31,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) throws IOException, ServletException {
+    @SneakyThrows
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) {
         UsernamePasswordAuthenticationToken auth = null;
         try {
             auth = getAuthentication(request);
@@ -41,10 +41,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             final var statusCode = HttpStatus.valueOf(401);
             final var responseStream = response.getOutputStream();
             final var mapper = new ObjectMapper();
-            final var exception = new ApiException();
-
-            exception.setMessage("Token expired, log in again");
-            exception.setHttpStatus(statusCode);
+            final var exception = ExceptionResponse.builder()
+                    .message("Token expired, log in again")
+                    .httpStatus(statusCode).build();
 
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

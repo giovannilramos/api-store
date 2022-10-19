@@ -4,6 +4,7 @@ import br.com.quaz.store.repositories.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -28,7 +28,8 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private String secret;
 
     @Override
-    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
+    @SneakyThrows
+    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) {
         final var principal = (UserDetails) authentication.getPrincipal();
         final var user = userRepository.findByEmail(principal.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         final var token = JWT.create()

@@ -1,8 +1,14 @@
 package br.com.quaz.store.response;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Builder(toBuilder = true)
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddressResponse {
     private String street;
     private String district;

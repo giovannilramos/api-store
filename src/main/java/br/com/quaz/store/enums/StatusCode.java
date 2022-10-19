@@ -8,8 +8,8 @@ public enum StatusCode {
     UNAUTHORIZED(401),
     ALREADY_EXISTS(409);
 
-    private final Integer statusCode;
+    private final Integer statusCodeNumber;
     StatusCode(final Integer code) {
-        this.statusCode = code;
+        this.statusCodeNumber = code;
     }
 }

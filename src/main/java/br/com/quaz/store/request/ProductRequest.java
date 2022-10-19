@@ -1,11 +1,13 @@
 package br.com.quaz.store.request;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Data
+@Builder(toBuilder = true)
+@Getter
 public class ProductRequest {
     private String name;
     private String brand;

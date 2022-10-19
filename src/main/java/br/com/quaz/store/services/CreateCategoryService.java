@@ -13,12 +13,10 @@ public class CreateCategoryService {
     private final CategoryRepository categoryRepository;
 
     public void createCategory(final CategoryRequest categoryRequest) {
-        if (categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())) {
+        if (Boolean.TRUE.equals(categoryRepository.existsByNameIgnoreCase(categoryRequest.getName()))) {
             throw new AlreadyExistsException("Category already exists");
         }
-        final var category = new Category();
-
-        category.setName(categoryRequest.getName());
+        final var category = Category.builder().name(categoryRequest.getName()).build();
 
         categoryRepository.save(category);
     }

@@ -1,7 +1,9 @@
 package br.com.quaz.store.entities;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -19,8 +21,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@RequiredArgsConstructor
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder(toBuilder = true)
 @Table(name = "TB_PRODUCT")
 public class Product {
     @Id

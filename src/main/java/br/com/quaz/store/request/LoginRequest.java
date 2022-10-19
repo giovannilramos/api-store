@@ -1,11 +1,13 @@
 package br.com.quaz.store.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Builder(toBuilder = true)
 @AllArgsConstructor
+@Getter
 @NoArgsConstructor
 public class LoginRequest {
     private String identification;

@@ -2,7 +2,7 @@ package br.com.quaz.store.entities;
 
 import br.com.quaz.store.enums.RoleName;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Builder(toBuilder = true)
 @Table(name = "TB_ROLES")
 public class Roles implements GrantedAuthority {
     @Id

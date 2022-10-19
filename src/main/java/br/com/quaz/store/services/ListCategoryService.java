@@ -15,13 +15,8 @@ public class ListCategoryService {
 
     public List<CategoryListResponse> listCategory() {
         final var categoryList = categoryRepository.findAll();
-        return categoryList.stream().map(category -> {
-            final var categoryListResponse = new CategoryListResponse();
-
-            categoryListResponse.setUuid(category.getUuid());
-            categoryListResponse.setName(category.getName());
-
-            return categoryListResponse;
-        }).collect(Collectors.toList());
+        return categoryList.stream().map(category -> CategoryListResponse.builder()
+                .uuid(category.getUuid())
+                .name(category.getName()).build()).collect(Collectors.toList());
     }
 }

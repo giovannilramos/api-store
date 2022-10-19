@@ -2,7 +2,8 @@ package br.com.quaz.store.entities;
 
 import br.com.quaz.store.enums.PaypalStatus;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,7 +27,8 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Builder(toBuilder = true)
+@Getter
 @Table(name = "TB_PURCHASE")
 public class Purchase {
     @Id
@@ -42,8 +44,6 @@ public class Purchase {
     private BigDecimal totalAmount;
 
     /*TODO: Estágios da compra*/
-    /*@Column(nullable = false)
-    private Map<String, String> status;*/
     @Enumerated(EnumType.STRING)
     private PaypalStatus status;
 

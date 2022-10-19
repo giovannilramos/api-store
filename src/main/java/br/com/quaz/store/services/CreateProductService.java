@@ -17,13 +17,11 @@ public class CreateProductService {
     private final CategoryRepository categoryRepository;
 
     public void createProduct(final ProductRequest productRequest) {
-        if (productRepository.existsByNameIgnoreCaseAndBrand(productRequest.getName(), productRequest.getBrand())) {
+        if (Boolean.TRUE.equals(productRepository.existsByNameIgnoreCaseAndBrand(productRequest.getName(), productRequest.getBrand()))) {
             throw new AlreadyExistsException("Product already exists");
         }
         final var product = new Product();
 
-        setProductEntity(product, productRequest, categoryRepository);
-
-        productRepository.save(product);
+        productRepository.save(setProductEntity(product, productRequest, categoryRepository));
     }
 }

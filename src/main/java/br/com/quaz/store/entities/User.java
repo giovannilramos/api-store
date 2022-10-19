@@ -1,7 +1,8 @@
 package br.com.quaz.store.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -28,8 +29,9 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Table(name = "TB_USER")
-@Data
+@Builder(toBuilder = true)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(generator = "uuid2")

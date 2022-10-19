@@ -35,15 +35,12 @@ public class AddRemoveToWishListService {
         final var user = userOptional.get();
         final var wishListExists = wishListRepository.existsWishListByUserAndProduct(user,product);
 
-        if (wishListExists) {
+        if (Boolean.TRUE.equals(wishListExists)) {
             final var wishList = wishListRepository.findByUserAndProduct(userOptional.get(), product)
                     .orElseThrow(() -> new NotFoundException("Item not found"));
             wishListRepository.delete(wishList);
         } else {
-            final var wishList = new WishList();
-
-            wishList.setUser(user);
-            wishList.setProduct(product);
+            final var wishList = WishList.builder().user(user).product(product).build();
 
             wishListRepository.save(wishList);
         }

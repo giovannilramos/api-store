@@ -27,22 +27,17 @@ public class UpdateUserService {
 
         final var user = userOptional.get();
 
-        if (!user.getEmail().equals(updateUserRequest.getEmail())) {
-            if (userRepository.existsByEmail(updateUserRequest.getEmail())) {
-                throw new AlreadyExistsException("E-mail already exists");
-            }
+        if (!user.getEmail().equals(updateUserRequest.getEmail()) && Boolean.TRUE.equals(userRepository.existsByEmail(updateUserRequest.getEmail()))) {
+            throw new AlreadyExistsException("E-mail already exists");
         }
-        if (!user.getUsername().equals(updateUserRequest.getUsername())) {
-            if (userRepository.existsByUsername(updateUserRequest.getUsername())) {
-                throw new AlreadyExistsException("Username already exists");
-            }
+        if (!user.getUsername().equals(updateUserRequest.getUsername()) && Boolean.TRUE.equals(userRepository.existsByUsername(updateUserRequest.getUsername()))) {
+            throw new AlreadyExistsException("Username already exists");
         }
 
-        user.setName(updateUserRequest.getName());
-        user.setEmail(updateUserRequest.getEmail());
-        user.setUsername(updateUserRequest.getUsername());
-        user.setBirthDate(updateUserRequest.getBirthDate());
-
-        userRepository.save(user);
+        userRepository.save(user.toBuilder()
+                .name(updateUserRequest.getName())
+                .email(updateUserRequest.getEmail())
+                .username(updateUserRequest.getUsername())
+                .birthDate(updateUserRequest.getBirthDate()).build());
     }
 }

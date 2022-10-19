@@ -1,7 +1,7 @@
 package br.com.quaz.store.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -15,9 +15,9 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Table(name = "TB_ADDRESS")
 public class Address {
     @Id

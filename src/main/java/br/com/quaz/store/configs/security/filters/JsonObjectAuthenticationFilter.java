@@ -1,10 +1,11 @@
 package br.com.quaz.store.configs.security.filters;
 
+import br.com.quaz.store.exceptions.UnauthorizedException;
 import br.com.quaz.store.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,8 @@ import java.io.IOException;
 
 public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
-    public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) throws AuthenticationException {
+    @SneakyThrows
+    public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
         final ObjectMapper objectMapper = new ObjectMapper();
         try {
             final var buffer = request.getReader();
@@ -29,7 +31,7 @@ public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticati
 
             return this.getAuthenticationManager().authenticate(token);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UnauthorizedException("User unauthorized");
         }
     }
 }

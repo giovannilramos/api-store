@@ -3,7 +3,9 @@ package br.com.quaz.store.configs.security;
 import br.com.quaz.store.configs.security.filters.JsonObjectAuthenticationFilter;
 import br.com.quaz.store.configs.security.filters.JwtAuthorizationFilter;
 import br.com.quaz.store.configs.security.service.UserDetailsServiceImpl;
+import br.com.quaz.store.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private static final String ADMIN_TAG = "ADMIN";
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthSuccessHandler authSuccessHandler;
@@ -26,26 +29,23 @@ public class SecurityConfig {
     private String secret;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @SneakyThrows
+    public SecurityFilterChain filterChain(HttpSecurity http) {
         http
                 .cors()
                 .and()
                 .csrf()
                 .disable()
-                .authorizeHttpRequests((auth) -> {
+                .authorizeHttpRequests(auth -> {
                     try {
                         auth
-                                .antMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
-                                .antMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
-                                .antMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
-                                .antMatchers(HttpMethod.POST, "/category").hasRole("ADMIN")
-                                .antMatchers(HttpMethod.DELETE, "/category/**").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.POST, "/products").hasRole(ADMIN_TAG)
+                                .antMatchers(HttpMethod.DELETE, "/products/**").hasRole(ADMIN_TAG)
+                                .antMatchers(HttpMethod.PUT, "/products/**").hasRole(ADMIN_TAG)
+                                .antMatchers(HttpMethod.POST, "/category").hasRole(ADMIN_TAG)
+                                .antMatchers(HttpMethod.DELETE, "/category/**").hasRole(ADMIN_TAG)
                                 .antMatchers(HttpMethod.POST, "/user").permitAll()
-                                .antMatchers("/user").hasRole("USER")
-                                .antMatchers("/wish-list").hasRole("USER")
-                                .antMatchers("/wish-list/**").hasRole("USER")
-                                .antMatchers("/purchase").hasRole("USER")
-                                .antMatchers("/paypal/**").hasRole("USER")
+                                .antMatchers("/user", "/wish-list", "/wish-list/**", "/purchase", "/paypal/**").hasRole("USER")
                                 .antMatchers(HttpMethod.GET).permitAll()
                                 .anyRequest().permitAll()
                                 .and()
@@ -55,8 +55,8 @@ public class SecurityConfig {
                                 .addFilter(new JwtAuthorizationFilter(authenticationManager, userDetailsService, secret))
                                 .exceptionHandling()
                                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                    } catch (final Exception e) {
+                        throw new UnauthorizedException("Unauthorized");
                     }
                 })
                 .httpBasic(Customizer.withDefaults());

@@ -2,10 +2,14 @@ package br.com.quaz.store.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Builder(toBuilder = true)
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class UnitAmount {
     @JsonProperty("currency_code")
     private String currencyCode;

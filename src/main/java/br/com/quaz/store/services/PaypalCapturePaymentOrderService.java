@@ -25,7 +25,7 @@ public class PaypalCapturePaymentOrderService {
 
         final var orderPayment = paypalIntegration.capturePaymentOrder(id);
 
-        purchase.setStatus(PaypalStatus.valueOf(orderPayment.get("status").asText()));
+        purchase.toBuilder().status(PaypalStatus.valueOf(orderPayment.get("status").asText())).build();
 
         if (!purchase.getStatus().equals(PaypalStatus.COMPLETED)) {
             throw new IllegalStateException("Order not completed");

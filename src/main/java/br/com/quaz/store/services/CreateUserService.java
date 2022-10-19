@@ -18,10 +18,10 @@ public class CreateUserService {
     private final AddressRepository addressRepository;
 
     public void createUser(final UserRequest userRequest) {
-        if (userRepository.existsByUsername(userRequest.getUsername())) {
+        if (Boolean.TRUE.equals(userRepository.existsByUsername(userRequest.getUsername()))) {
             throw new AlreadyExistsException("Username already exists");
         }
-        if (userRepository.existsByEmail(userRequest.getEmail())) {
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(userRequest.getEmail()))) {
             throw new AlreadyExistsException("E-mail already exists");
         }
 
