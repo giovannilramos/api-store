@@ -18,8 +18,8 @@ public class CreateAddressService {
     private final AddressRepository addressRepository;
 
     public void createAddress(final String jwtToken, final AddressRequest addressRequest) {
-        final var sub = decoderTokenJwt(jwtToken);
-        final var user = userRepository.findByEmail(sub)
+        final var email = decoderTokenJwt(jwtToken);
+        final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
         addressRepository.save(convertAddressDTOToEntity(convertAddressRequestToDTO(addressRequest, user)));
     }

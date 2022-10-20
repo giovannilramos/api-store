@@ -18,8 +18,8 @@ public class UpdateUserService {
     private final UserRepository userRepository;
 
     public void updateUser(final String jwtToken, final UpdateUserRequest updateUserRequest) {
-        final var sub = decoderTokenJwt(jwtToken);
-        final var user = userRepository.findByEmail(sub)
+        final var email = decoderTokenJwt(jwtToken);
+        final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         if (!user.getEmail().equals(updateUserRequest.getEmail()) && Boolean.TRUE.equals(userRepository.existsByEmail(updateUserRequest.getEmail()))) {

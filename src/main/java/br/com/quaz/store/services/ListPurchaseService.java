@@ -20,9 +20,9 @@ public class ListPurchaseService {
     private final UserRepository userRepository;
 
     public List<PurchaseResponse> purchaseList(final String jwtToken, final Pageable pageable) {
-        final var sub = decoderTokenJwt(jwtToken);
+        final var email = decoderTokenJwt(jwtToken);
 
-        final var user = userRepository.findByEmail(sub)
+        final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
         final var purchaseList = purchaseRepository.findAllByLoggedUser(user.getEmail(), pageable);
 

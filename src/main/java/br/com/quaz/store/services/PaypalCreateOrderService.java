@@ -39,8 +39,8 @@ public class PaypalCreateOrderService {
         final var address = addressRepository.findById(purchaseRequest.getAddressUuid())
                 .orElseThrow(() ->
                         new NotFoundException("Address not found"));
-        final var sub = decoderTokenJwt(jwtToken);
-        final var user = userRepository.findByEmail(sub)
+        final var email = decoderTokenJwt(jwtToken);
+        final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         final var productList = new ArrayList<Product>();

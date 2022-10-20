@@ -20,9 +20,9 @@ public class GetWishListService {
     private final UserRepository userRepository;
 
     public List<ProductsListResponse> getWishList(final String jwtToken, final Pageable pageable) {
-        var sub = decoderTokenJwt(jwtToken);
+        final var email = decoderTokenJwt(jwtToken);
 
-        final var user = userRepository.findByEmail(sub)
+        final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
         final var productList = productRepository.findAllByLoggedUser(user.getEmail(), pageable);
 

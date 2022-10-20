@@ -14,9 +14,9 @@ public class GetUserService {
     private final UserRepository userRepository;
 
     public UserResponse findLoggedUser(final String jwtToken) {
-        final var sub = decoderTokenJwt(jwtToken);
+        final var email = decoderTokenJwt(jwtToken);
 
-        final var user = userRepository.findByEmail(sub)
+        final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         return UserResponse.builder()
