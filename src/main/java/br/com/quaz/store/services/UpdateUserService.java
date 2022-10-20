@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
+import static br.com.quaz.store.services.converters.UserConverter.convertUserDTOToEntity;
+import static br.com.quaz.store.services.converters.UserConverter.convertUserEntityToDTO;
+import static br.com.quaz.store.services.converters.UserConverter.convertUserRequestToDTO;
 
 @Service
 @AllArgsConstructor
@@ -25,11 +28,7 @@ public class UpdateUserService {
         if (!user.getUsername().equals(updateUserRequest.getUsername()) && Boolean.TRUE.equals(userRepository.existsByUsername(updateUserRequest.getUsername()))) {
             throw new AlreadyExistsException("Username already exists");
         }
-
-        userRepository.save(user.toBuilder()
-                .name(updateUserRequest.getName())
-                .email(updateUserRequest.getEmail())
-                .username(updateUserRequest.getUsername())
-                .birthDate(updateUserRequest.getBirthDate()).build());
+        final var userDTO = convertUserEntityToDTO(user);
+        userRepository.save(convertUserDTOToEntity(convertUserRequestToDTO(updateUserRequest, userDTO)));
     }
 }

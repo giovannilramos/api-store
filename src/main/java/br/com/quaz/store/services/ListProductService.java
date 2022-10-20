@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductDTOToListResponse;
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductEntityToDTO;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
@@ -28,17 +30,12 @@ public class ListProductService {
                 .withMatcher("name", contains().ignoreCase())
                 .withMatcher("isPromotion", exact());
 
-        final var product = new Product(name, isPromotion);
+        final var product = Product.builder().name(name).isPromotion(isPromotion).build();
         final var listProducts = productRepository.findAll(Example.of(product, exampleMatcher), pageable);
 
         return listProducts.stream()
                 .filter(f -> !Objects.nonNull(categoryUuid) || categoryUuid.isEmpty() || f.getCategory().getUuid().toString().equals(categoryUuid))
-                .map(productPage -> ProductsListResponse.builder()
-                        .uuid(productPage.getUuid())
-                        .name(productPage.getName())
-                        .price(productPage.getPrice())
-                        .isPromotion(productPage.getIsPromotion())
-                        .discount(productPage.getDiscount())
-                        .image(productPage.getImage()).build()).collect(Collectors.toList());
+                .map(productPage -> convertProductDTOToListResponse(convertProductEntityToDTO(productPage)))
+                .collect(Collectors.toList());
     }
 }

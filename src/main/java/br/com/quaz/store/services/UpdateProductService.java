@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-import static br.com.quaz.store.helper.ProductHelper.setProductEntity;
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductDTOToEntity;
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductEntityToDTO;
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductRequestToDTO;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +25,11 @@ public class UpdateProductService {
         if (Boolean.TRUE.equals(productRepository.existsByNameIgnoreCaseAndBrand(productRequest.getName(), productRequest.getBrand()))) {
             throw new AlreadyExistsException("Product already exists");
         }
+        final var category = categoryRepository.findById(productRequest.getCategoryUuid())
+                .orElseThrow(() ->
+                        new NotFoundException("Category not found"));
+        final var productDTO = convertProductEntityToDTO(product);
 
-        productRepository.save(setProductEntity(product, productRequest, categoryRepository));
+        productRepository.save(convertProductDTOToEntity(convertProductRequestToDTO(productRequest, category, productDTO)));
     }
 }

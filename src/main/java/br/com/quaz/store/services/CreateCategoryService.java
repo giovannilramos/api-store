@@ -1,11 +1,13 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.entities.Category;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.repositories.CategoryRepository;
 import br.com.quaz.store.request.CategoryRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static br.com.quaz.store.services.converters.CategoryConverter.convertCategoryDTOToEntity;
+import static br.com.quaz.store.services.converters.CategoryConverter.convertCategoryRequestToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +18,6 @@ public class CreateCategoryService {
         if (Boolean.TRUE.equals(categoryRepository.existsByNameIgnoreCase(categoryRequest.getName()))) {
             throw new AlreadyExistsException("Category already exists");
         }
-        final var category = Category.builder().name(categoryRequest.getName()).build();
-
-        categoryRepository.save(category);
+        categoryRepository.save(convertCategoryDTOToEntity(convertCategoryRequestToDTO(categoryRequest)));
     }
 }

@@ -1,4 +1,4 @@
-package br.com.quaz.store.dto;
+package br.com.quaz.store.services.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaypalItems {
+public class PaypalItemsDTO {
     private String name;
     private String description;
     private String quantity;
     @JsonProperty("unit_amount")
-    private UnitAmount unitAmount;
+    private UnitAmountDTO unitAmountDTO;
 }

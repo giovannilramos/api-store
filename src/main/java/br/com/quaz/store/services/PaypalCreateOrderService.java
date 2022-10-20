@@ -1,7 +1,7 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.dto.PaypalItems;
-import br.com.quaz.store.dto.UnitAmount;
+import br.com.quaz.store.services.dto.PaypalItemsDTO;
+import br.com.quaz.store.services.dto.UnitAmountDTO;
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.entities.Purchase;
 import br.com.quaz.store.enums.PaypalStatus;
@@ -50,11 +50,11 @@ public class PaypalCreateOrderService {
 
             productList.add(product);
 
-            return PaypalItems.builder()
+            return PaypalItemsDTO.builder()
                     .name(product.getName())
                     .description(product.getDescription())
                     .quantity("1")
-                    .unitAmount(UnitAmount.builder().currencyCode("BRL")
+                    .unitAmountDTO(UnitAmountDTO.builder().currencyCode("BRL")
                             .value(Boolean.TRUE.equals(product.getIsPromotion()) ?
                                     (product
                                             .getPrice()

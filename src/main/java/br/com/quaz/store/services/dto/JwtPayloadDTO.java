@@ -1,4 +1,4 @@
-package br.com.quaz.store.dto;
+package br.com.quaz.store.services.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtPayload {
+public class JwtPayloadDTO {
     private String sub;
     private String exp;
 }

@@ -24,7 +24,7 @@ public class AddRemoveToWishListService {
                 .orElseThrow(() ->
                         new NotFoundException("Product not found"));
         final var sub = decoderTokenJwt(jwtToken);
-        var user = userRepository.findByEmail(sub)
+        final var user = userRepository.findByEmail(sub)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         final var wishListExists = wishListRepository.existsWishListByUserAndProduct(user,product);

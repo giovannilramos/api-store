@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressDTOToEntity;
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressEntityToDTO;
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressRequestToDTO;
+
 @Service
 @RequiredArgsConstructor
 public class UpdateAddressService {
@@ -16,15 +20,7 @@ public class UpdateAddressService {
     public void updateAddress(final UUID uuid, final AddressRequest addressRequest) {
         final var address = addressRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("Address not found"));
-
-        addressRepository.save(address.toBuilder()
-                .cep(addressRequest.getCep())
-                .number(addressRequest.getNumber())
-                .street(addressRequest.getStreet())
-                .district(addressRequest.getDistrict())
-                .country(addressRequest.getCountry())
-                .city(addressRequest.getCity())
-                .state(addressRequest.getState())
-                .complement(addressRequest.getComplement()).build());
+        final var addressDTO = convertAddressEntityToDTO(address);
+        addressRepository.save(convertAddressDTOToEntity(convertAddressRequestToDTO(addressRequest, addressDTO)));
     }
 }

@@ -7,7 +7,8 @@ import br.com.quaz.store.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static br.com.quaz.store.helper.UserHelper.setUserEntity;
+import static br.com.quaz.store.services.converters.UserConverter.convertUserDTOToEntity;
+import static br.com.quaz.store.services.converters.UserConverter.convertUserRequestToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,8 @@ public class CreateUserService {
         if (Boolean.TRUE.equals(userRepository.existsByEmail(userRequest.getEmail()))) {
             throw new AlreadyExistsException("E-mail already exists");
         }
+        final var roles = rolesRepository.findAllByUuidIn(userRequest.getRolesUuid());
 
-        setUserEntity(userRequest, rolesRepository, userRepository);
+        userRepository.save(convertUserDTOToEntity(convertUserRequestToDTO(userRequest, roles)));
     }
 }
