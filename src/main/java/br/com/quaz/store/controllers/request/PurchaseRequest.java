@@ -1,4 +1,4 @@
-package br.com.quaz.store.request;
+package br.com.quaz.store.controllers.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

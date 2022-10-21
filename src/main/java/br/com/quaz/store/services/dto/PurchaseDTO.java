@@ -1,4 +1,4 @@
-package br.com.quaz.store.response;
+package br.com.quaz.store.services.dto;
 
 import br.com.quaz.store.entities.Address;
 import br.com.quaz.store.entities.Product;
@@ -14,16 +14,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class PurchaseResponse {
-    private Address address;
+public class PurchaseDTO {
     private UUID uuid;
     private String purchaseNumber;
     private BigDecimal totalAmount;
     private PaypalStatus status;
+    private Address address;
     private User user;
     private List<Product> productList;
     private LocalDateTime createdAt;

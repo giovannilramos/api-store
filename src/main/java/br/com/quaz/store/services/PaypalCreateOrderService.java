@@ -1,18 +1,18 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.services.dto.PaypalItemsDTO;
-import br.com.quaz.store.services.dto.UnitAmountDTO;
 import br.com.quaz.store.entities.Product;
-import br.com.quaz.store.entities.Purchase;
 import br.com.quaz.store.enums.PaypalStatus;
+import br.com.quaz.store.exceptions.BaseException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.integrations.PaypalIntegration;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.request.PurchaseRequest;
-import br.com.quaz.store.response.OrderResponse;
+import br.com.quaz.store.controllers.request.PurchaseRequest;
+import br.com.quaz.store.controllers.response.OrderResponse;
+import br.com.quaz.store.services.dto.PaypalItemsDTO;
+import br.com.quaz.store.services.dto.UnitAmountDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +24,10 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
+import static br.com.quaz.store.services.converters.OrderConverter.convertOrderDTOToResponse;
+import static br.com.quaz.store.services.converters.OrderConverter.convertOrderRequestToDTO;
+import static br.com.quaz.store.services.converters.PurchaseConverter.convertPurchaseDTOToEntity;
+import static br.com.quaz.store.services.converters.PurchaseConverter.convertPurchaseRequestToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +70,6 @@ public class PaypalCreateOrderService {
                                     : product.getPrice().toString()).build()).build();
         }).collect(Collectors.toList());
 
-        final var orderResponse = OrderResponse.builder().build();
         final var mapper = new ObjectMapper();
 
         try {
@@ -106,21 +109,14 @@ public class PaypalCreateOrderService {
             final var id = paypalResponse.get("id").asText();
             final var status = PaypalStatus.valueOf(paypalResponse.get("status").asText());
             final var link = paypalResponse.get("links").get(1).get("href").asText();
-            final var purchase = Purchase.builder()
-                    .address(address)
-                    .productList(productList)
-                    .totalAmount(totalAmount)
-                    .user(user)
-                    .purchaseNumber(id)
-                    .status(status).build();
 
-            purchaseRepository.save(purchase);
+            purchaseRepository.save(convertPurchaseDTOToEntity(convertPurchaseRequestToDTO(id, status, address, productList, user, totalAmount)));
 
-            orderResponse.toBuilder().id(id).status(status).link(link).build();
-        } catch (Exception e) {
+            return convertOrderDTOToResponse(convertOrderRequestToDTO(id, link, status));
+        } catch (final Exception e) {
             log.error("Set order response error: {}", e.getMessage());
         }
 
-        return orderResponse;
+        throw new BaseException("Create order error", 406);
     }
 }

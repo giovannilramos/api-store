@@ -1,18 +1,18 @@
-package br.com.quaz.store.response;
+package br.com.quaz.store.services.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ViaCepResponse {
-    private String street;
-    private String district;
+public class ViaCepDTO {
     private String city;
     private String state;
     private String complement;
+    private String street;
+    private String district;
 }

@@ -1,7 +1,7 @@
 package br.com.quaz.store.controllers;
 
-import br.com.quaz.store.request.CategoryRequest;
-import br.com.quaz.store.response.CategoryListResponse;
+import br.com.quaz.store.controllers.request.CategoryRequest;
+import br.com.quaz.store.controllers.response.CategoryListResponse;
 import br.com.quaz.store.services.CreateCategoryService;
 import br.com.quaz.store.services.DeleteCategoryService;
 import br.com.quaz.store.services.ListCategoryService;

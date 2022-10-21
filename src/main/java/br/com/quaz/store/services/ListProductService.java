@@ -2,7 +2,7 @@ package br.com.quaz.store.services;
 
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.repositories.ProductRepository;
-import br.com.quaz.store.response.ProductsListResponse;
+import br.com.quaz.store.controllers.response.ProductsListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;

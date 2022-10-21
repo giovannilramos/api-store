@@ -2,8 +2,8 @@ package br.com.quaz.store.services.converters;
 
 import br.com.quaz.store.entities.Address;
 import br.com.quaz.store.entities.User;
-import br.com.quaz.store.request.AddressRequest;
-import br.com.quaz.store.response.AddressResponse;
+import br.com.quaz.store.controllers.request.AddressRequest;
+import br.com.quaz.store.controllers.response.AddressResponse;
 import br.com.quaz.store.services.dto.AddressDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

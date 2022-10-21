@@ -1,6 +1,6 @@
 package br.com.quaz.store.controllers;
 
-import br.com.quaz.store.response.ProductsListResponse;
+import br.com.quaz.store.controllers.response.ProductsListResponse;
 import br.com.quaz.store.services.AddRemoveToWishListService;
 import br.com.quaz.store.services.GetWishListService;
 import com.fasterxml.jackson.databind.JsonNode;

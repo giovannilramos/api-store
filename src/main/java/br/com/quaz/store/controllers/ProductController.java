@@ -1,8 +1,8 @@
 package br.com.quaz.store.controllers;
 
-import br.com.quaz.store.request.ProductRequest;
-import br.com.quaz.store.response.ProductResponse;
-import br.com.quaz.store.response.ProductsListResponse;
+import br.com.quaz.store.controllers.request.ProductRequest;
+import br.com.quaz.store.controllers.response.ProductResponse;
+import br.com.quaz.store.controllers.response.ProductsListResponse;
 import br.com.quaz.store.services.CreateProductService;
 import br.com.quaz.store.services.DeleteProductService;
 import br.com.quaz.store.services.GetProductService;

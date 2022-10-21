@@ -3,7 +3,7 @@ package br.com.quaz.store.services;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.response.AddressResponse;
+import br.com.quaz.store.controllers.response.AddressResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

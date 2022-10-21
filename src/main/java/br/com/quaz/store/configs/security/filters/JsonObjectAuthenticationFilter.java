@@ -1,7 +1,7 @@
 package br.com.quaz.store.configs.security.filters;
 
 import br.com.quaz.store.exceptions.UnauthorizedException;
-import br.com.quaz.store.request.LoginRequest;
+import br.com.quaz.store.controllers.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

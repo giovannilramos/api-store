@@ -2,7 +2,7 @@ package br.com.quaz.store.services;
 
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.repositories.CategoryRepository;
-import br.com.quaz.store.request.CategoryRequest;
+import br.com.quaz.store.controllers.request.CategoryRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

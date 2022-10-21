@@ -3,7 +3,7 @@ package br.com.quaz.store.services;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.response.PurchaseResponse;
+import br.com.quaz.store.controllers.response.PurchaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
+import static br.com.quaz.store.services.converters.PurchaseConverter.convertPurchaseDTOToResponse;
+import static br.com.quaz.store.services.converters.PurchaseConverter.convertPurchaseEntityToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +28,8 @@ public class ListPurchaseService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
         final var purchaseList = purchaseRepository.findAllByLoggedUser(user.getEmail(), pageable);
 
-        return purchaseList.stream().map(purchase -> PurchaseResponse.builder()
-                .address(purchase.getAddress())
-                .uuid(purchase.getUuid())
-                .purchaseNumber(purchase.getPurchaseNumber())
-                .status(purchase.getStatus())
-                .totalAmount(purchase.getTotalAmount())
-                .user(purchase.getUser())
-                .productList(purchase.getProductList())
-                .createdAt(purchase.getCreatedAt())
-                .updatedAt(purchase.getUpdatedAt()).build()).collect(Collectors.toList());
+        return purchaseList.stream().map(purchase ->
+                        convertPurchaseDTOToResponse(convertPurchaseEntityToDTO(purchase))
+                ).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,7 @@
 package br.com.quaz.store.controllers;
 
-import br.com.quaz.store.request.AddressRequest;
-import br.com.quaz.store.response.AddressResponse;
+import br.com.quaz.store.controllers.request.AddressRequest;
+import br.com.quaz.store.controllers.response.AddressResponse;
 import br.com.quaz.store.services.CreateAddressService;
 import br.com.quaz.store.services.DeleteAddressService;
 import br.com.quaz.store.services.ListAddressService;

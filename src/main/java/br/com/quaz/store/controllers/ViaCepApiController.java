@@ -1,6 +1,6 @@
 package br.com.quaz.store.controllers;
 
-import br.com.quaz.store.response.ViaCepResponse;
+import br.com.quaz.store.controllers.response.ViaCepResponse;
 import br.com.quaz.store.services.ViaCepApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,25 +1,20 @@
-package br.com.quaz.store.response;
+package br.com.quaz.store.controllers.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ProductResponse {
-    private UUID uuid;
+public class ProductRequest {
     private String name;
+    private String brand;
     private String description;
     private BigDecimal price;
     private Boolean isPromotion;
     private Integer discount;
     private String image;
-    private String brand;
-    private String category;
+    private UUID categoryUuid;
 }

@@ -3,7 +3,7 @@ package br.com.quaz.store.services;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.repositories.RolesRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.request.UserRequest;
+import br.com.quaz.store.controllers.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

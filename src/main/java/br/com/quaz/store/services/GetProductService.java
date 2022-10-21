@@ -2,7 +2,7 @@ package br.com.quaz.store.services;
 
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.ProductRepository;
-import br.com.quaz.store.response.ProductResponse;
+import br.com.quaz.store.controllers.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

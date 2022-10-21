@@ -2,8 +2,9 @@ package br.com.quaz.store.services.converters;
 
 import br.com.quaz.store.entities.Roles;
 import br.com.quaz.store.entities.User;
-import br.com.quaz.store.request.UpdateUserRequest;
-import br.com.quaz.store.request.UserRequest;
+import br.com.quaz.store.controllers.request.UpdateUserRequest;
+import br.com.quaz.store.controllers.request.UserRequest;
+import br.com.quaz.store.controllers.response.UserResponse;
 import br.com.quaz.store.services.dto.UserDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -51,5 +52,14 @@ public class UserConverter {
                 .password(user.getPassword())
                 .birthDate(user.getBirthDate())
                 .roles(user.getRoles()).build();
+    }
+
+    public static UserResponse convertUserDTOToResponse(final UserDTO userDTO) {
+        return UserResponse.builder()
+                .uuid(userDTO.getUuid())
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .username(userDTO.getUsername())
+                .birthDate(userDTO.getBirthDate()).build();
     }
 }

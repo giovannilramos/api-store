@@ -3,7 +3,7 @@ package br.com.quaz.store.services;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.response.ProductsListResponse;
+import br.com.quaz.store.controllers.response.ProductsListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductDTOToListResponse;
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductEntityToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +28,8 @@ public class GetWishListService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
         final var productList = productRepository.findAllByLoggedUser(user.getEmail(), pageable);
 
-        return productList.stream().map(productPage -> ProductsListResponse.builder()
-                .uuid(productPage.getUuid())
-                .name(productPage.getName())
-                .price(productPage.getPrice())
-                .isPromotion(productPage.getIsPromotion())
-                .discount(productPage.getDiscount())
-                .image(productPage.getImage()).build()).collect(Collectors.toList());
+        return productList.stream().map(productPage ->
+                        convertProductDTOToListResponse(convertProductEntityToDTO(productPage)))
+                .collect(Collectors.toList());
     }
 }

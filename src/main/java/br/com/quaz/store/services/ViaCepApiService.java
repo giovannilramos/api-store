@@ -1,9 +1,12 @@
 package br.com.quaz.store.services;
 
-import br.com.quaz.store.response.ViaCepResponse;
 import br.com.quaz.store.integrations.ViaCepIntegration;
+import br.com.quaz.store.controllers.response.ViaCepResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static br.com.quaz.store.services.converters.ViaCepConverter.convertViaCepDTOToResponse;
+import static br.com.quaz.store.services.converters.ViaCepConverter.convertViaCepRequestToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -12,13 +15,8 @@ public class ViaCepApiService {
 
     public ViaCepResponse getAddressByCep(final String cep) {
         final var jsonAddress = viaCepIntegration.getCep(cep);
-
-        return ViaCepResponse.builder()
-                .city(jsonAddress.get("localidade").asText())
-                .state(jsonAddress.get("uf").asText())
-                .complement(jsonAddress.get("complemento").asText())
-                .street(jsonAddress.get("logradouro").asText())
-                .district(jsonAddress.get("bairro").asText())
-                .build();
+        return convertViaCepDTOToResponse(convertViaCepRequestToDTO(jsonAddress.get("localidade").asText(),
+                jsonAddress.get("uf").asText(), jsonAddress.get("complemento").asText(),
+                jsonAddress.get("logradouro").asText(), jsonAddress.get("bairro").asText()));
     }
 }

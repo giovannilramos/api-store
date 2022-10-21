@@ -2,9 +2,9 @@ package br.com.quaz.store.services.converters;
 
 import br.com.quaz.store.entities.Category;
 import br.com.quaz.store.entities.Product;
-import br.com.quaz.store.request.ProductRequest;
-import br.com.quaz.store.response.ProductResponse;
-import br.com.quaz.store.response.ProductsListResponse;
+import br.com.quaz.store.controllers.request.ProductRequest;
+import br.com.quaz.store.controllers.response.ProductResponse;
+import br.com.quaz.store.controllers.response.ProductsListResponse;
 import br.com.quaz.store.services.dto.ProductDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

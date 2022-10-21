@@ -1,8 +1,8 @@
 package br.com.quaz.store.controllers;
 
-import br.com.quaz.store.request.UpdateUserRequest;
-import br.com.quaz.store.request.UserRequest;
-import br.com.quaz.store.response.UserResponse;
+import br.com.quaz.store.controllers.request.UpdateUserRequest;
+import br.com.quaz.store.controllers.request.UserRequest;
+import br.com.quaz.store.controllers.response.UserResponse;
 import br.com.quaz.store.services.CreateUserService;
 import br.com.quaz.store.services.GetUserService;
 import br.com.quaz.store.services.UpdateUserService;

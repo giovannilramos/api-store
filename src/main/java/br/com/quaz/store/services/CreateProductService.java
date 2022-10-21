@@ -4,7 +4,7 @@ import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.CategoryRepository;
 import br.com.quaz.store.repositories.ProductRepository;
-import br.com.quaz.store.request.ProductRequest;
+import br.com.quaz.store.controllers.request.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
