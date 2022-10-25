@@ -19,14 +19,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
-        var userOptional = userRepository.findByEmail(login);
-        if (userOptional.isEmpty()) {
-            userOptional = userRepository.findByUsername(login);
-            if (userOptional.isEmpty()) {
-                throw new UnauthorizedException("Login not found");
-            }
-        }
-        final var user = userOptional.get();
+        var user = userRepository.findByEmail(login)
+                .orElseGet(() -> userRepository.findByUsername(login)
+                        .orElseThrow(() -> new UnauthorizedException("Login not found")));
 
         return new User(user.getEmail(), user.getPassword(),
                 user.isEnabled(), user.isAccountNonExpired(),
