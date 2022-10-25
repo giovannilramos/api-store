@@ -16,8 +16,7 @@ public class UserHelper {
     public static String decoderTokenJwt(final String jwtToken) {
         final var token = jwtToken.replace("Bearer ", "");
         final var chunks = token.split("\\.");
-        final var decoder = Base64.getUrlDecoder();
-        final var payload = new String(decoder.decode(chunks[1]));
+        final var payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
         final JwtPayloadDTO identification;
         try {
             identification = new ObjectMapper().readValue(payload, JwtPayloadDTO.class);
