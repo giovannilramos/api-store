@@ -16,7 +16,7 @@ public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticati
     @Override
     @SneakyThrows
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
-        final ObjectMapper objectMapper = new ObjectMapper();
+        final var objectMapper = new ObjectMapper();
         try {
             final var buffer = request.getReader();
             final var sb = new StringBuilder();
@@ -30,7 +30,7 @@ public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticati
             setDetails(request, token);
 
             return this.getAuthenticationManager().authenticate(token);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UnauthorizedException("User unauthorized");
         }
     }
