@@ -1,8 +1,8 @@
-package br.com.quaz.store.configs.security;
+package br.com.quaz.store.config.security;
 
-import br.com.quaz.store.configs.security.filters.JsonObjectAuthenticationFilter;
-import br.com.quaz.store.configs.security.filters.JwtAuthorizationFilter;
-import br.com.quaz.store.configs.security.service.UserDetailsServiceImpl;
+import br.com.quaz.store.config.security.filters.JsonObjectAuthenticationFilter;
+import br.com.quaz.store.config.security.filters.JwtAuthorizationFilter;
+import br.com.quaz.store.config.security.service.UserDetailsServiceImpl;
 import br.com.quaz.store.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

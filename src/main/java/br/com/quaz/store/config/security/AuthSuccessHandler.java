@@ -1,4 +1,4 @@
-package br.com.quaz.store.configs.security;
+package br.com.quaz.store.config.security;
 
 import br.com.quaz.store.repositories.UserRepository;
 import com.auth0.jwt.JWT;

@@ -1,6 +1,6 @@
-package br.com.quaz.store.configs.security.filters;
+package br.com.quaz.store.config.security.filters;
 
-import br.com.quaz.store.configs.security.service.UserDetailsServiceImpl;
+import br.com.quaz.store.config.security.service.UserDetailsServiceImpl;
 import br.com.quaz.store.utils.ExceptionResponse;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -1,4 +1,4 @@
-package br.com.quaz.store.configs.paypal;
+package br.com.quaz.store.config.paypal;
 
 import feign.RequestInterceptor;
 import feign.auth.BasicAuthRequestInterceptor;

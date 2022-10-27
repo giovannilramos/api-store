@@ -1,4 +1,4 @@
-package br.com.quaz.store.configs.security.filters;
+package br.com.quaz.store.config.security.filters;
 
 import br.com.quaz.store.exceptions.UnauthorizedException;
 import br.com.quaz.store.controllers.request.LoginRequest;

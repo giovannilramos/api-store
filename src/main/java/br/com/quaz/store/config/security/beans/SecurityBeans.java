@@ -1,4 +1,4 @@
-package br.com.quaz.store.configs.security.beans;
+package br.com.quaz.store.config.security.beans;
 
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;

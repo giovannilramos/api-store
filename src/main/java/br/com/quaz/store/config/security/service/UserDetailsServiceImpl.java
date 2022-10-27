@@ -1,4 +1,4 @@
-package br.com.quaz.store.configs.security.service;
+package br.com.quaz.store.config.security.service;
 
 import br.com.quaz.store.exceptions.UnauthorizedException;
 import br.com.quaz.store.repositories.UserRepository;
