@@ -1,5 +1,6 @@
 package br.com.quaz.store.services;
 
+import br.com.quaz.store.controllers.ProductController;
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.controllers.response.ProductsListResponse;
@@ -17,6 +18,8 @@ import static br.com.quaz.store.services.converters.ProductConverter.convertProd
 import static br.com.quaz.store.services.converters.ProductConverter.convertProductEntityToDTO;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @Service
@@ -35,7 +38,11 @@ public class ListProductService {
 
         return listProducts.stream()
                 .filter(f -> !Objects.nonNull(categoryUuid) || categoryUuid.isEmpty() || f.getCategory().getUuid().toString().equals(categoryUuid))
-                .map(productPage -> convertProductDTOToListResponse(convertProductEntityToDTO(productPage)))
+                .map(productPage -> {
+                    final var response = convertProductDTOToListResponse(convertProductEntityToDTO(productPage));
+                    response.add(linkTo(methodOn(ProductController.class).findProductById(response.getUuid())).withSelfRel());
+                    return response;
+                })
                 .collect(Collectors.toList());
     }
 }

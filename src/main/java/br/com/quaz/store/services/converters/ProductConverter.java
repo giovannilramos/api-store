@@ -50,6 +50,7 @@ public class ProductConverter {
 
     public static ProductDTO convertProductEntityToDTO(final Product product) {
         return ProductDTO.builder()
+                .uuid(product.getUuid())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
