@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(login)
+        final var user = userRepository.findByEmail(login)
                 .orElseGet(() -> userRepository.findByUsername(login)
                         .orElseThrow(() -> new UnauthorizedException("Login not found")));
 
