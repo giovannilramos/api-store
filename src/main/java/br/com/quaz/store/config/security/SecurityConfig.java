@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     @Bean
     @SneakyThrows
-    public SecurityFilterChain filterChain(HttpSecurity http) {
+    public SecurityFilterChain filterChain(final HttpSecurity http) {
         http
                 .cors()
                 .and()
