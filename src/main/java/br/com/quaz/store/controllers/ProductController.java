@@ -43,19 +43,18 @@ public class ProductController {
             @RequestParam(required = false, name = "category") final String category,
             @RequestParam(required = false, name = "name") final String name,
             @RequestParam(required = false, name = "isPromotion") final Boolean isPromotion) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(listProductService.listProducts(pageable, category, name, isPromotion));
+        return ResponseEntity.ok(listProductService.listProducts(pageable, category, name, isPromotion));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> findProductById(@PathVariable(name = "id") final UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(getProductService.findProductById(id));
+        return ResponseEntity.ok(getProductService.findProductById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable(name = "id") final UUID id, @RequestBody final ProductRequest productRequest) {
         updateProductService.updateProduct(id, productRequest);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping
@@ -67,6 +66,6 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") final UUID id) {
         deleteProductService.deleteProduct(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }

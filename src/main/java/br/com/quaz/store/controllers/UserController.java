@@ -27,13 +27,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<UserResponse> findUser(@RequestHeader(name = "Authorization") final String jwtToken) {
-        return ResponseEntity.status(HttpStatus.OK).body(getUserService.findLoggedUser(jwtToken));
+        return ResponseEntity.ok(getUserService.findLoggedUser(jwtToken));
     }
 
     @PutMapping
     public ResponseEntity<Void> updateUser(@RequestHeader(name = "Authorization") final String jwtToken, @RequestBody final UpdateUserRequest updateUserRequest) {
         updateUserService.updateUser(jwtToken, updateUserRequest);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping

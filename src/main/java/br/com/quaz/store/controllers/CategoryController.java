@@ -29,7 +29,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryListResponse>> listCategory() {
-        return ResponseEntity.status(HttpStatus.OK).body(listCategoryService.listCategory());
+        return ResponseEntity.ok(listCategoryService.listCategory());
     }
 
     @PostMapping
@@ -41,6 +41,6 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable(name = "id") final UUID id) {
         deleteCategoryService.deleteCategory(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }

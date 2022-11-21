@@ -3,7 +3,6 @@ package br.com.quaz.store.controllers;
 import br.com.quaz.store.controllers.response.ViaCepResponse;
 import br.com.quaz.store.services.ViaCepApiService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,7 @@ public class ViaCepApiController {
 
     @GetMapping("/{cep}")
     public ResponseEntity<ViaCepResponse> getAddressByCep(@PathVariable("cep") final String cep) {
-        return ResponseEntity.status(HttpStatus.OK).body(viaCepApiService.getAddressByCep(cep));
+        return ResponseEntity.ok(viaCepApiService.getAddressByCep(cep));
     }
 
 }

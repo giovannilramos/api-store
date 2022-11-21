@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,6 +22,6 @@ public class PurchaseController {
 
     @GetMapping
     public ResponseEntity<List<PurchaseResponse>> find(@RequestHeader(name = "Authorization") final String jwtToken, @PageableDefault(direction = Sort.Direction.DESC) final Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(listPurchaseService.purchaseList(jwtToken, pageable));
+        return ResponseEntity.ok(listPurchaseService.purchaseList(jwtToken, pageable));
     }
 }
