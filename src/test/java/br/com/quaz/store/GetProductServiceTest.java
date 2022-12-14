@@ -6,8 +6,10 @@ import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.services.GetProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -17,6 +19,7 @@ import static br.com.quaz.store.mockHelper.MockHelper.productMock;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class GetProductServiceTest {
     @Mock
     private ProductRepository productRepository;
@@ -27,13 +30,14 @@ class GetProductServiceTest {
     @Test
     void shouldShowProductDetails() {
         final var uuid = UUID.randomUUID();
-        final var productOptional = Optional.of(productMock("Teclado", "HyperX", BigDecimal.TEN, false, 0, "Teclado"));
+        final var productOptional = Optional.of(productMock(uuid, "Teclado", "HyperX", BigDecimal.TEN, false, 0, "Teclado"));
         when(productRepository.findById(uuid)).thenReturn(productOptional);
 
         final var product = getProductService.findProductById(uuid);
 
         Assertions.assertEquals("Teclado", product.getName());
-        Assertions.assertEquals("Quality Product", product.getDescription());
+        Assertions.assertEquals(uuid, product.getUuid());
+        Assertions.assertEquals("Quality product", product.getDescription());
         Assertions.assertEquals(BigDecimal.TEN, product.getPrice());
         Assertions.assertEquals(false, product.getIsPromotion());
         Assertions.assertEquals(0, product.getDiscount());
@@ -48,6 +52,6 @@ class GetProductServiceTest {
         final Optional<Product> productOptional = Optional.empty();
         when(productRepository.findById(uuid)).thenReturn(productOptional);
 
-        assertThrows(NotFoundException.class, () -> getProductService.findProductById(uuid), "Product Not Found");
+        assertThrows(NotFoundException.class, () -> getProductService.findProductById(uuid), "Product not found");
     }
 }

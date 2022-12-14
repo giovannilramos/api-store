@@ -19,8 +19,8 @@ import java.util.stream.Stream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MockHelper {
-    public static User userMock(final String name, final String email, final String username) {
-        return new User(UUID.randomUUID(), name, LocalDate.now(),
+    public static User userMock(final UUID uuid, final String name, final String email, final String username) {
+        return new User(uuid, name, LocalDate.now(),
                 email, username,
                 new BCryptPasswordEncoder().encode("123"),
                 setRolesMock(),
@@ -39,10 +39,10 @@ public class MockHelper {
         return new Category(UUID.randomUUID(), name, LocalDateTime.now(), LocalDateTime.now());
     }
 
-    public static Product productMock(final String name, final String brand, final BigDecimal price,
+    public static Product productMock(final UUID uuid, final String name, final String brand, final BigDecimal price,
                                       final Boolean promotion, final Integer discount,
                                       final String categoryName) {
-        return new Product(UUID.randomUUID(), name, brand,
+        return new Product(uuid, name, brand,
                 "Quality product", price, promotion, discount,
                 "https://google.com", categoryMock(categoryName), LocalDateTime.now(),
                 LocalDateTime.now());
