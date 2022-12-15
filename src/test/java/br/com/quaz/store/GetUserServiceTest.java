@@ -2,7 +2,6 @@ package br.com.quaz.store;
 
 import br.com.quaz.store.entities.User;
 import br.com.quaz.store.exceptions.NotFoundException;
-import br.com.quaz.store.exceptions.UnauthorizedException;
 import br.com.quaz.store.repositories.UserRepository;
 import br.com.quaz.store.services.GetUserService;
 import org.junit.jupiter.api.Test;
@@ -43,11 +42,6 @@ class GetUserServiceTest {
         assertEquals("giovannilramos55@gmail.com", userResponse.getEmail());
         assertEquals(LocalDate.now(), userResponse.getBirthDate());
         assertEquals("giovanni.ramos", userResponse.getUsername());
-    }
-
-    @Test
-    void shouldThrowsUnauthorizedException() {
-        assertThrows(UnauthorizedException.class, () -> getUserService.findLoggedUser("User unauthorized"), "");
     }
 
     @Test

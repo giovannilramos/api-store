@@ -1,9 +1,6 @@
 package br.com.quaz.store.mockHelper;
 
-import br.com.quaz.store.entities.Category;
-import br.com.quaz.store.entities.Product;
-import br.com.quaz.store.entities.Roles;
-import br.com.quaz.store.entities.User;
+import br.com.quaz.store.entities.*;
 import br.com.quaz.store.enums.RoleName;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -19,12 +16,18 @@ import java.util.stream.Stream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MockHelper {
+    public static final String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaW92YW5uaWxyYW1vczU1QGdtYWlsLmNvbSIsImV4cCI6MTY3MTEwODg1MX0.jkFfvB1V04AreGq3mt-7bGqKsYtQN-mLaRsEds_OIRc";
+
     public static User userMock(final UUID uuid, final String name, final String email, final String username) {
         return new User(uuid, name, LocalDate.now(),
                 email, username,
                 new BCryptPasswordEncoder().encode("123"),
                 setRolesMock(),
                 LocalDateTime.now(), LocalDateTime.now());
+    }
+
+    public static Address addressMock(final UUID uuid, final User user) {
+        return new Address(uuid, "12345678", "1", "Rua 1", "Bairro 1", "País 1", "Cidade 1", "SP", "", user);
     }
 
     public static Set<Roles> setRolesMock() {

@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static br.com.quaz.store.mockHelper.MockHelper.productMock;
-import static br.com.quaz.store.mockHelper.MockHelper.userMock;
+import static br.com.quaz.store.mockHelper.MockHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -36,7 +35,6 @@ class GetWishListServiceTest {
 
     @InjectMocks
     private GetWishListService getWishListService;
-    private static final String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaW92YW5uaWxyYW1vczU1QGdtYWlsLmNvbSIsImV4cCI6MTY3MTEwODg1MX0.jkFfvB1V04AreGq3mt-7bGqKsYtQN-mLaRsEds_OIRc";
     private Optional<User> userOptional;
 
     @BeforeEach
