@@ -2,6 +2,7 @@ package br.com.quaz.store.services;
 
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.enums.PaypalStatus;
+import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.BaseException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.integrations.PaypalIntegration;
@@ -117,6 +118,6 @@ public class PaypalCreateOrderService {
             log.error("Set order response error: {}", e.getMessage());
         }
 
-        throw new BaseException("Create order error", 406);
+        throw new BaseException("Create order error", StatusCode.NOT_ACCEPTABLE.getStatusCodeNumber());
     }
 }
