@@ -1,6 +1,7 @@
 package br.com.quaz.store.mockHelper;
 
 import br.com.quaz.store.entities.*;
+import br.com.quaz.store.enums.PaypalStatus;
 import br.com.quaz.store.enums.RoleName;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -49,5 +51,12 @@ public class MockHelper {
                 "Quality product", price, promotion, discount,
                 "https://google.com", categoryMock(categoryName), LocalDateTime.now(),
                 LocalDateTime.now());
+    }
+
+    public static Purchase purchaseMock(final UUID uuid, final String purchaseNumber, final User user, final PaypalStatus status) {
+        final var product = productMock(UUID.randomUUID(), "Teclado", "Razer", BigDecimal.TEN, false, 0, "Teclado");
+        return new Purchase(uuid, purchaseNumber, BigDecimal.TEN, status,
+                addressMock(UUID.randomUUID(), user),
+                user, List.of(product), LocalDateTime.now(), LocalDateTime.now());
     }
 }
