@@ -11,14 +11,14 @@ public class OrderConverter {
     public static OrderResponse convertOrderDTOToResponse(final OrderDTO orderDTO) {
         return OrderResponse.builder()
                 .id(orderDTO.getId())
-                .status(orderDTO.getStatus()).
-                link(orderDTO.getLink()).build();
+                .status(orderDTO.getStatus())
+                .link(orderDTO.getLink()).build();
     }
 
     public static OrderDTO convertOrderRequestToDTO(final String id, final String link, final PaypalStatus status) {
         return OrderDTO.builder()
                 .id(id)
-                .status(status).
-                link(link).build();
+                .status(status)
+                .link(link).build();
     }
 }
