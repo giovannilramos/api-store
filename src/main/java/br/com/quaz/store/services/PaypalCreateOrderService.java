@@ -48,8 +48,8 @@ public class PaypalCreateOrderService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         final var productList = new ArrayList<Product>();
-        final var items = purchaseRequest.getProductUuidList().stream().map(productRequest -> {
-            final var product = productRepository.findById(productRequest)
+        final var items = purchaseRequest.getProductUuidList().stream().map(uuid -> {
+            final var product = productRepository.findById(uuid)
                     .orElseThrow(() -> new NotFoundException("Product not found"));
 
             productList.add(product);
