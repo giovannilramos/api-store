@@ -57,6 +57,8 @@ class PaypalCreateOrderServiceTest {
         final var product = productMock(UUID.randomUUID(), "Teclado", "Razer", BigDecimal.TEN, false, 0, "Teclado");
         final var purchase = purchaseMock(UUID.randomUUID(), id, user, PaypalStatus.CREATED);
         final var mapper = new ObjectMapper();
+        final var paypalCreateOrderResponse = paypalCreateOrderService.createOrder(token, PurchaseRequest
+                .builder().addressUuid(address.getUuid()).productUuidList(List.of(product.getUuid())).build());
         final var jsonCreateOrderResponse = "{\n" +
                 "    \"id\": \"14L698333P1789131\",\n" +
                 "    \"intent\": \"CAPTURE\",\n" +
@@ -120,14 +122,8 @@ class PaypalCreateOrderServiceTest {
         when(userRepository.findByEmail("giovannilramos55@gmail.com")).thenReturn(Optional.of(user));
         when(productRepository.findById(any(UUID.class))).thenReturn(Optional.of(product));
         when(paypalIntegration.createOrder(any(JsonNode.class))).thenReturn(mapper.readTree(jsonCreateOrderResponse));
-
         when(purchaseRepository.save(any(Purchase.class))).thenReturn(purchase);
 
-        final var paypalCreateOrderResponse = paypalCreateOrderService
-                .createOrder(token, PurchaseRequest.builder()
-                        .addressUuid(address.getUuid())
-                        .productUuidList(List.of(product.getUuid()))
-                        .build());
 
         assertNotNull(paypalCreateOrderResponse);
         assertEquals(PaypalStatus.CREATED, paypalCreateOrderResponse.getStatus());
