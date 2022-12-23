@@ -21,6 +21,7 @@ import static br.com.quaz.store.mockHelper.MockHelper.productMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,6 +50,7 @@ class ListProductServiceTest {
     }
 
     @Test
+//    TODO: Arrumar, falso teste ->
     void shouldReturn1ProductInFirstPage() {
         final var product1 = productMock(UUID.randomUUID(), "Mouse", "Logitech",
                 BigDecimal.ONE, false, 0, "Mouse");
@@ -57,7 +59,7 @@ class ListProductServiceTest {
         final var productList = Arrays.asList(product1, product2);
         final var pageable = PageRequest.of(0, 1);
 
-        when(productRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(productList.stream().findFirst().orElseThrow())));
+        when(productRepository.findAll(any(Example.class), eq(pageable))).thenReturn(new PageImpl<>(List.of(productList.stream().findFirst().orElseThrow()), pageable, 10));
 
 
         final var productResponse = listProductService.listProducts(pageable, null, null, null);
