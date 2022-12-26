@@ -5,7 +5,6 @@ import br.com.quaz.store.entities.User;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.UserRepository;
 import br.com.quaz.store.services.GetWishListService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static br.com.quaz.store.mockHelper.MockHelper.*;
+import static br.com.quaz.store.mockHelper.MockHelper.productMock;
+import static br.com.quaz.store.mockHelper.MockHelper.token;
+import static br.com.quaz.store.mockHelper.MockHelper.userMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -35,13 +36,7 @@ class GetWishListServiceTest {
 
     @InjectMocks
     private GetWishListService getWishListService;
-    private Optional<User> userOptional;
-
-    @BeforeEach
-    void createUser() {
-        this.userOptional = Optional.of(userMock(UUID.randomUUID(), "Giovanni Ramos",
-                "giovannilramos55@gmail.com", "giovanni.ramos"));
-    }
+    private final User user = userMock(UUID.randomUUID(), "Giovanni Ramos","giovannilramos55@gmail.com", "giovanni.ramos");
 
     @Test
     void shouldListAllProductsInWishList() {
@@ -53,7 +48,7 @@ class GetWishListServiceTest {
         final var productList = List.of(productMock);
         final var productPage = new PageImpl<>(productList);
 
-        when(userRepository.findByEmail("giovannilramos55@gmail.com")).thenReturn(this.userOptional);
+        when(userRepository.findByEmail("giovannilramos55@gmail.com")).thenReturn(Optional.of(this.user));
         when(productRepository.findAllByLoggedUser("giovannilramos55@gmail.com", pageable)).thenReturn(productPage);
 
 
@@ -67,7 +62,7 @@ class GetWishListServiceTest {
     void shouldReturnAEmptyList() {
         final var pageable = PageRequest.of(0, 8);
 
-        when(userRepository.findByEmail("giovannilramos55@gmail.com")).thenReturn(this.userOptional);
+        when(userRepository.findByEmail("giovannilramos55@gmail.com")).thenReturn(Optional.of(this.user));
         when(productRepository.findAllByLoggedUser("giovannilramos55@gmail.com", pageable)).thenReturn(Page.empty());
 
         final var wishList = getWishListService.getWishList(token, pageable);
