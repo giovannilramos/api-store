@@ -27,7 +27,7 @@ public class AddRemoveToWishListService {
         final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        final var wishListExists = wishListRepository.existsWishListByUserAndProduct(user,product);
+        final var wishListExists = wishListRepository.existsWishListByUserAndProduct(user, product);
 
         if (Boolean.TRUE.equals(wishListExists)) {
             final var wishList = wishListRepository.findByUserAndProduct(user, product)
