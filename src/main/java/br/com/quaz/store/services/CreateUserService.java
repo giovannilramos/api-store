@@ -1,9 +1,10 @@
 package br.com.quaz.store.services;
 
+import br.com.quaz.store.controllers.request.UserRequest;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
+import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.RolesRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.controllers.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,18 @@ public class CreateUserService {
     private final RolesRepository rolesRepository;
 
     public void createUser(final UserRequest userRequest) {
+        final var roles = rolesRepository.findAllByUuidIn(userRequest.getRolesUuid());
+
+        if (roles.isEmpty()) {
+            throw new NotFoundException("Roles not found");
+        }
+
         if (Boolean.TRUE.equals(userRepository.existsByUsername(userRequest.getUsername()))) {
             throw new AlreadyExistsException("Username already exists");
         }
         if (Boolean.TRUE.equals(userRepository.existsByEmail(userRequest.getEmail()))) {
             throw new AlreadyExistsException("E-mail already exists");
         }
-        final var roles = rolesRepository.findAllByUuidIn(userRequest.getRolesUuid());
 
         userRepository.save(convertUserDTOToEntity(convertUserRequestToDTO(userRequest, roles)));
     }
