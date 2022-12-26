@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +40,7 @@ class ListProductServiceTest {
         final var productList = Arrays.asList(product1, product2);
         final var pageable = PageRequest.of(0, 10);
 
-        when(productRepository.findAll(any(Example.class), any(Pageable.class))).thenReturn(new PageImpl<>(productList));
+        when(productRepository.findAll(any(), any(Pageable.class))).thenReturn(new PageImpl<>(productList));
 
         final var productResponse = listProductService.listProducts(pageable, null, null, null);
 
@@ -57,9 +56,9 @@ class ListProductServiceTest {
         final var product2 = productMock(UUID.randomUUID(), "Teclado", "HyperX",
                 BigDecimal.TEN, false, 0, "Teclado");
         final var productList = Arrays.asList(product1, product2);
-        final var pageable = PageRequest.of(0, 1);
+        final var pageable = PageRequest.of(0, 2);
 
-        when(productRepository.findAll(any(Example.class), eq(pageable))).thenReturn(new PageImpl<>(List.of(productList.stream().findFirst().orElseThrow()), pageable, 10));
+        when(productRepository.findAll(any(), eq(pageable))).thenReturn(new PageImpl<>(List.of(productList.stream().findFirst().orElseThrow()), pageable, 10));
 
 
         final var productResponse = listProductService.listProducts(pageable, null, null, null);
