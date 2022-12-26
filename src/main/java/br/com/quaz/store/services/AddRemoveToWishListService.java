@@ -33,10 +33,10 @@ public class AddRemoveToWishListService {
             final var wishList = wishListRepository.findByUserAndProduct(user, product)
                     .orElseThrow(() -> new NotFoundException("Item not found"));
             wishListRepository.delete(wishList);
-        } else {
-            final var wishList = WishList.builder().user(user).product(product).build();
-
-            wishListRepository.save(wishList);
+            return;
         }
+        final var wishList = WishList.builder().user(user).product(product).build();
+
+        wishListRepository.save(wishList);
     }
 }
