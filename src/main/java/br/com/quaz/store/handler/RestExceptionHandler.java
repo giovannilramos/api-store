@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 public class RestExceptionHandler {
 
     @ExceptionHandler(value = {BaseException.class})
-    public ResponseEntity<Object> resourceNotFoundExceptionHandler(final BaseException ex) {
+    public ResponseEntity<ExceptionResponse> resourceNotFoundExceptionHandler(final BaseException ex) {
         final var statusCode = HttpStatus.valueOf(ex.getCode());
         final var exception = ExceptionResponse.builder()
                 .message(ex.getMessage())
