@@ -1,5 +1,6 @@
 package br.com.quaz.store;
 
+import br.com.quaz.store.controllers.request.ProductPurchaseRequest;
 import br.com.quaz.store.controllers.request.PurchaseRequest;
 import br.com.quaz.store.entities.Purchase;
 import br.com.quaz.store.enums.PaypalStatus;
@@ -57,8 +58,6 @@ class PaypalCreateOrderServiceTest {
         final var product = productMock(UUID.randomUUID(), "Teclado", "Razer", BigDecimal.TEN, false, 0, "Teclado");
         final var purchase = purchaseMock(UUID.randomUUID(), id, user, PaypalStatus.CREATED);
         final var mapper = new ObjectMapper();
-        final var paypalCreateOrderResponse = paypalCreateOrderService.createOrder(token, PurchaseRequest
-                .builder().addressUuid(address.getUuid()).productUuidList(List.of(product.getUuid())).build());
         final var jsonCreateOrderResponse = "{\n" +
                 "    \"id\": \"14L698333P1789131\",\n" +
                 "    \"intent\": \"CAPTURE\",\n" +
@@ -124,6 +123,15 @@ class PaypalCreateOrderServiceTest {
         when(paypalIntegration.createOrder(any(JsonNode.class))).thenReturn(mapper.readTree(jsonCreateOrderResponse));
         when(purchaseRepository.save(any(Purchase.class))).thenReturn(purchase);
 
+        final var paypalCreateOrderResponse = paypalCreateOrderService.createOrder(token, PurchaseRequest
+                .builder()
+                .addressUuid(address.getUuid())
+                .productList(
+                        List.of(ProductPurchaseRequest
+                                .builder()
+                                .productUuid(product.getUuid())
+                                .quantity(1L).build())
+                ).shipping(BigDecimal.TEN).build());
 
         assertNotNull(paypalCreateOrderResponse);
         assertEquals(PaypalStatus.CREATED, paypalCreateOrderResponse.getStatus());
