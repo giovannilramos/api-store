@@ -44,6 +44,12 @@ public class Product {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isPromotion = false;
     private Integer discount;
+    @Column(nullable = false)
+    private BigDecimal height;
+    @Column(nullable = false)
+    private BigDecimal width;
+    @Column(nullable = false)
+    private BigDecimal length;
     @Lob
     private String image;
 

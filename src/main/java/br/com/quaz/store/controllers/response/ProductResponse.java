@@ -22,4 +22,7 @@ public class ProductResponse {
     private String image;
     private String brand;
     private String category;
+    private BigDecimal length;
+    private BigDecimal width;
+    private BigDecimal height;
 }

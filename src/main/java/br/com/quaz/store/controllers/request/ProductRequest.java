@@ -17,4 +17,7 @@ public class ProductRequest {
     private Integer discount;
     private String image;
     private UUID categoryUuid;
+    private BigDecimal length;
+    private BigDecimal width;
+    private BigDecimal height;
 }
