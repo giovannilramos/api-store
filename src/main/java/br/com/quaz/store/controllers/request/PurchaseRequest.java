@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,4 +16,5 @@ import java.util.UUID;
 public class PurchaseRequest {
     private List<ProductPurchaseRequest> productList;
     private UUID addressUuid;
+    private BigDecimal shipping;
 }

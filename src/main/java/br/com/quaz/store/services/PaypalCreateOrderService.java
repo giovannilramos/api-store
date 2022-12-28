@@ -5,6 +5,7 @@ import br.com.quaz.store.controllers.response.OrderResponse;
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.enums.PaypalStatus;
 import br.com.quaz.store.enums.StatusCode;
+import br.com.quaz.store.exceptions.BadRequestException;
 import br.com.quaz.store.exceptions.BaseException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.helper.TotalAmountHelper;
@@ -42,6 +43,9 @@ public class PaypalCreateOrderService {
     private final UserRepository userRepository;
 
     public OrderResponse createOrder(final String jwtToken, final PurchaseRequest purchaseRequest) {
+        if (purchaseRequest.getProductList().stream().anyMatch(productPurchaseRequest -> productPurchaseRequest.getQuantity() <= 0)) {
+            throw new BadRequestException("Quantity cannot be less than or equal to 0");
+        }
         final var address = addressRepository.findById(purchaseRequest.getAddressUuid())
                 .orElseThrow(() ->
                         new NotFoundException("Address not found"));
@@ -71,12 +75,20 @@ public class PaypalCreateOrderService {
                                             .toString()
                                     : product.getPrice().toString()).build()).build();
         }).collect(Collectors.toList());
+        items.add(PaypalItemsDTO.builder()
+                .name("Frete")
+                .quantity("1")
+                .unitAmountDTO(UnitAmountDTO.builder()
+                        .currencyCode("BRL")
+                        .value(String.valueOf(purchaseRequest.getShipping()))
+                        .build())
+                .build());
 
         final var mapper = new ObjectMapper();
 
         try {
             final var itemsMapped = mapper.writeValueAsString(items);
-            final var totalAmount = TotalAmountHelper.calculateTotalAmount(productList, purchaseRequest);
+            final var totalAmount = TotalAmountHelper.calculateTotalAmount(productList, purchaseRequest).add(purchaseRequest.getShipping());
 
             final var paypalRequest = "{\n" +
                     "        \"intent\": \"CAPTURE\",\n" +
