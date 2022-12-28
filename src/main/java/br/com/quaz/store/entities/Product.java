@@ -50,6 +50,8 @@ public class Product {
     private BigDecimal width;
     @Column(nullable = false)
     private BigDecimal length;
+    @Column(nullable = false)
+    private BigDecimal weight;
     @Lob
     private String image;
 
