@@ -23,7 +23,7 @@ public class ProductsListResponse extends RepresentationModel<ProductsListRespon
     private String image;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof ProductsListResponse)) return false;
         if (!super.equals(o)) return false;
