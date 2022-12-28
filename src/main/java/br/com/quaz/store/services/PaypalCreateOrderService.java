@@ -1,5 +1,7 @@
 package br.com.quaz.store.services;
 
+import br.com.quaz.store.controllers.request.PurchaseRequest;
+import br.com.quaz.store.controllers.response.OrderResponse;
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.enums.PaypalStatus;
 import br.com.quaz.store.enums.StatusCode;
@@ -10,8 +12,6 @@ import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.controllers.request.PurchaseRequest;
-import br.com.quaz.store.controllers.response.OrderResponse;
 import br.com.quaz.store.services.dto.PaypalItemsDTO;
 import br.com.quaz.store.services.dto.UnitAmountDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,8 +49,8 @@ public class PaypalCreateOrderService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         final var productList = new ArrayList<Product>();
-        final var items = purchaseRequest.getProductUuidList().stream().map(uuid -> {
-            final var product = productRepository.findById(uuid)
+        final var items = purchaseRequest.getProductList().stream().map(productPurchaseRequest -> {
+            final var product = productRepository.findById(productPurchaseRequest.getProductUuid())
                     .orElseThrow(() -> new NotFoundException("Product not found"));
 
             productList.add(product);
@@ -58,7 +58,7 @@ public class PaypalCreateOrderService {
             return PaypalItemsDTO.builder()
                     .name(product.getName())
                     .description(product.getDescription())
-                    .quantity("1")
+                    .quantity(String.valueOf(productPurchaseRequest.getQuantity()))
                     .unitAmountDTO(UnitAmountDTO.builder().currencyCode("BRL")
                             .value(Boolean.TRUE.equals(product.getIsPromotion()) ?
                                     (product
@@ -80,9 +80,17 @@ public class PaypalCreateOrderService {
                             product.toBuilder().price(product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
                                             .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
                                     .setScale(2, RoundingMode.HALF_UP)).build();
-                            return product.getPrice();
+                            return product.getPrice().multiply(BigDecimal.valueOf(
+                                    purchaseRequest.getProductList().stream()
+                                            .filter(f -> f.getProductUuid().equals(product.getUuid()))
+                                            .findFirst().orElseThrow().getQuantity()
+                            ));
                         }
-                        return product.getPrice();
+                        return product.getPrice().multiply(BigDecimal.valueOf(
+                                purchaseRequest.getProductList().stream()
+                                        .filter(f -> f.getProductUuid().equals(product.getUuid()))
+                                        .findFirst().orElseThrow().getQuantity()
+                        ));
                     })
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 

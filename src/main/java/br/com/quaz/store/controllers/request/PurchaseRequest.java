@@ -13,6 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseRequest {
-    private List<UUID> productUuidList;
+    private List<ProductPurchaseRequest> productList;
     private UUID addressUuid;
 }
