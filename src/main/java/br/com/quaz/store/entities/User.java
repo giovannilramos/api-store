@@ -40,6 +40,8 @@ public class User implements UserDetails {
     private UUID uuid;
     @Column(nullable = false, length = 150)
     private String name;
+    @Column(unique = true)
+    private String taxId;
     private LocalDate birthDate;
     @Column(nullable = false, unique = true, length = 90)
     private String email;
