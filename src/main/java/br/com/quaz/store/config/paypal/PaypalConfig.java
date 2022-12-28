@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 public class PaypalConfig {
-    @Value("${paypal.client-id}")
+    @Value("${integrations.paypal.client-id}")
     private String clientId;
-    @Value("${paypal.secret-id}")
+    @Value("${integrations.paypal.secret-id}")
     private String secretId;
 
     @Bean

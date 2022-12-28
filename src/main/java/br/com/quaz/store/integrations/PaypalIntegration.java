@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "paypal", url = "${paypal.sandbox-base-url}", configuration = PaypalConfig.class)
+@FeignClient(value = "paypal", url = "${integrations.paypal.sandbox-base-url}", configuration = PaypalConfig.class)
 public interface PaypalIntegration {
     @PostMapping("/v2/checkout/orders")
     JsonNode createOrder(@RequestBody final JsonNode jsonNode);

@@ -7,6 +7,7 @@ import br.com.quaz.store.enums.PaypalStatus;
 import br.com.quaz.store.enums.StatusCode;
 import br.com.quaz.store.exceptions.BaseException;
 import br.com.quaz.store.exceptions.NotFoundException;
+import br.com.quaz.store.helper.TotalAmountHelper;
 import br.com.quaz.store.integrations.PaypalIntegration;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.ProductRepository;
@@ -75,24 +76,7 @@ public class PaypalCreateOrderService {
 
         try {
             final var itemsMapped = mapper.writeValueAsString(items);
-            final var totalAmount = productList.stream().map(product -> {
-                        if (Boolean.TRUE.equals(product.getIsPromotion())) {
-                            product.toBuilder().price(product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
-                                            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
-                                    .setScale(2, RoundingMode.HALF_UP)).build();
-                            return product.getPrice().multiply(BigDecimal.valueOf(
-                                    purchaseRequest.getProductList().stream()
-                                            .filter(f -> f.getProductUuid().equals(product.getUuid()))
-                                            .findFirst().orElseThrow().getQuantity()
-                            ));
-                        }
-                        return product.getPrice().multiply(BigDecimal.valueOf(
-                                purchaseRequest.getProductList().stream()
-                                        .filter(f -> f.getProductUuid().equals(product.getUuid()))
-                                        .findFirst().orElseThrow().getQuantity()
-                        ));
-                    })
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            final var totalAmount = TotalAmountHelper.calculateTotalAmount(productList, purchaseRequest);
 
             final var paypalRequest = "{\n" +
                     "        \"intent\": \"CAPTURE\",\n" +
