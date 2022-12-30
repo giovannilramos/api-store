@@ -7,7 +7,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,12 +37,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             auth = getAuthentication(request);
 
         } catch (Exception e) {
-            final var statusCode = HttpStatus.valueOf(401);
             final var responseStream = response.getOutputStream();
             final var mapper = new ObjectMapper();
             final var exception = ExceptionResponse.builder()
-                    .message("Token expired, log in again")
-                    .httpStatus(statusCode).build();
+                    .message("Token expired, log in again").build();
 
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -18,7 +18,6 @@ public class RestExceptionHandler {
         final var statusCode = HttpStatus.valueOf(ex.getCode());
         final var exception = ExceptionResponse.builder()
                 .message(ex.getMessage())
-                .httpStatus(statusCode)
                 .zonedDateTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"))).build();
         return new ResponseEntity<>(exception, statusCode);
     }
