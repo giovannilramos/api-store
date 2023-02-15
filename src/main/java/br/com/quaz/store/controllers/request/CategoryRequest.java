@@ -5,10 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder(toBuilder = true)
+import javax.validation.constraints.NotEmpty;
+
+@Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryRequest {
+    @NotEmpty(message = "name cannot be empty")
     private String name;
 }

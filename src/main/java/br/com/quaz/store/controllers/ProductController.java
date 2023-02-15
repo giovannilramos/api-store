@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,13 +53,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable(name = "id") final UUID id, @RequestBody final ProductRequest productRequest) {
+    public ResponseEntity<Void> updateProduct(@PathVariable(name = "id") final UUID id, @Valid @RequestBody final ProductRequest productRequest) {
         updateProductService.updateProduct(id, productRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody final ProductRequest productRequest) {
+    public ResponseEntity<Void> createProduct(@RequestBody @Valid  final ProductRequest productRequest) {
         createProductService.createProduct(productRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

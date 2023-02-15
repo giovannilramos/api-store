@@ -59,8 +59,7 @@ public class MockHelper {
                                       final Integer discount, final String categoryName) {
         return Product.builder().uuid(uuid).name(name).brand(brand).description("Quality product")
                 .price(price).isPromotion(promotion).discount(discount).image("https://google.com")
-                .category(categoryMock(categoryName)).weight(BigDecimal.TEN).length(BigDecimal.TEN)
-                .width(BigDecimal.TEN).height(BigDecimal.TEN).createdAt(LocalDateTime.now())
+                .category(categoryMock(categoryName)).createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now()).build();
     }
 

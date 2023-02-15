@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,13 +38,13 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createAddress(@RequestHeader(name = "Authorization") final String jwtToken, @RequestBody final AddressRequest addressRequest) {
+    public ResponseEntity<Void> createAddress(@RequestHeader(name = "Authorization") final String jwtToken, @Valid @RequestBody final AddressRequest addressRequest) {
         createAddressService.createAddress(jwtToken, addressRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateAddress(@PathVariable("id") final UUID uuid, @RequestBody final AddressRequest addressRequest) {
+    public ResponseEntity<Void> updateAddress(@PathVariable("id") final UUID uuid, @Valid @RequestBody final AddressRequest addressRequest) {
         updateAddressService.updateAddress(uuid, addressRequest);
 
         return ResponseEntity.noContent().build();

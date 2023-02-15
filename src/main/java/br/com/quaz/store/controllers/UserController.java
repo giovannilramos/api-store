@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -31,13 +33,13 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateUser(@RequestHeader(name = "Authorization") final String jwtToken, @RequestBody final UpdateUserRequest updateUserRequest) {
+    public ResponseEntity<Void> updateUser(@RequestHeader(name = "Authorization") final String jwtToken, @Valid @RequestBody final UpdateUserRequest updateUserRequest) {
         updateUserService.updateUser(jwtToken, updateUserRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody final UserRequest userRequest) {
+    public ResponseEntity<Void> createUser(@RequestBody @Valid  final UserRequest userRequest) {
         createUserService.createUser(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

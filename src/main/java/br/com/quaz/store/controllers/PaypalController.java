@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/paypal")
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class PaypalController {
     private final PaypalCapturePaymentOrderService paypalCapturePaymentOrderService;
 
     @PostMapping("/order")
-    public ResponseEntity<OrderResponse> createOrder(@RequestHeader(name = "Authorization") final String tokenJwt, @RequestBody final PurchaseRequest purchaseRequest) {
+    public ResponseEntity<OrderResponse> createOrder(@RequestHeader(name = "Authorization") final String tokenJwt, @Valid @RequestBody final PurchaseRequest purchaseRequest) {
         return ResponseEntity.ok(paypalCreateOrderService.createOrder(tokenJwt, purchaseRequest));
     }
 

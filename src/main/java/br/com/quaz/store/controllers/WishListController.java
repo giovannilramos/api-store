@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class WishListController {
     private final GetWishListService getWishListService;
 
     @PatchMapping
-    public ResponseEntity<Void> addRemoveToWishList(@RequestHeader("Authorization") final String jwtToken, @RequestBody final JsonNode productUuid) {
+    public ResponseEntity<Void> addRemoveToWishList(@RequestHeader("Authorization") final String jwtToken, @Valid @RequestBody final JsonNode productUuid) {
         addRemoveToWishListService.addRemoveToWishList(jwtToken, UUID.fromString(productUuid.get("productUuid").asText()));
         return ResponseEntity.noContent().build();
     }
