@@ -14,9 +14,11 @@ public class TotalAmountHelper {
     public static BigDecimal calculateTotalAmount(final List<Product> productList, final PurchaseRequest purchaseRequest) {
         return productList.stream().map(product -> {
                     if (Boolean.TRUE.equals(product.getIsPromotion())) {
-                        product.toBuilder().price(product.getPrice().multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
-                                        .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
-                                .setScale(2, RoundingMode.HALF_UP)).build();
+                        product.toBuilder()
+                                .price(product.getPrice()
+                                        .multiply(BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(product.getDiscount())
+                                                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)))
+                                        .setScale(2, RoundingMode.HALF_UP)).build();
                         return product.getPrice().multiply(BigDecimal.valueOf(
                                 purchaseRequest.getProductList().stream()
                                         .filter(f -> f.getProductUuid().equals(product.getUuid()))
