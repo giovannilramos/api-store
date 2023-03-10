@@ -1,5 +1,6 @@
 package br.com.quaz.store.services;
 
+import br.com.quaz.store.controllers.response.ProductResponse;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.CategoryRepository;
@@ -8,8 +9,8 @@ import br.com.quaz.store.controllers.request.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static br.com.quaz.store.services.converters.ProductConverter.convertProductDTOToEntity;
-import static br.com.quaz.store.services.converters.ProductConverter.convertProductRequestToDTO;
+import static br.com.quaz.store.services.converters.ProductConverter.*;
+import static br.com.quaz.store.services.converters.ProductConverter.convertProductEntityToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class CreateProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
-    public void createProduct(final ProductRequest productRequest) {
+    public ProductResponse createProduct(final ProductRequest productRequest) {
         if (Boolean.TRUE.equals(productRepository.existsByNameIgnoreCaseAndBrand(productRequest.getName(), productRequest.getBrand()))) {
             throw new AlreadyExistsException("Product already exists");
         }
@@ -25,6 +26,7 @@ public class CreateProductService {
                 .orElseThrow(() ->
                         new NotFoundException("Category not found"));
 
-        productRepository.save(convertProductDTOToEntity(convertProductRequestToDTO(productRequest, category)));
+        final var product = productRepository.save(convertProductDTOToEntity(convertProductRequestToDTO(productRequest, category)));
+        return convertProductDTOToResponse(convertProductEntityToDTO(product));
     }
 }

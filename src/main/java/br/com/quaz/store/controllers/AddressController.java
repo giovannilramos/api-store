@@ -20,6 +20,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
+import static br.com.quaz.store.helper.UriHelper.getUri;
+
 @RestController
 @RequestMapping("/address")
 @RequiredArgsConstructor
@@ -46,7 +48,7 @@ public class AddressController {
                                               @Valid @RequestBody final AddressRequest addressRequest,
                                               final UriComponentsBuilder uriComponentsBuilder) {
         final var addressResponse = createAddressService.createAddress(jwtToken, addressRequest);
-        final var uri = uriComponentsBuilder.path("/address/{id}").buildAndExpand(addressResponse.getUuid()).toUri();
+        final var uri = getUri(uriComponentsBuilder, "/address/{id}", addressResponse.getUuid());
         return ResponseEntity.created(uri).build();
     }
 

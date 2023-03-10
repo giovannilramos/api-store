@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +22,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+
+import static br.com.quaz.store.helper.UriHelper.getUri;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,9 +61,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody @Valid  final ProductRequest productRequest) {
-        createProductService.createProduct(productRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid  final ProductRequest productRequest, final UriComponentsBuilder uriComponentsBuilder) {
+        final var productResponse = createProductService.createProduct(productRequest);
+        final var uri = getUri(uriComponentsBuilder, "/products/{id}", productResponse.getUuid());
+        return ResponseEntity.created(uri).build();
     }
 
     @DeleteMapping("/{id}")
