@@ -28,3 +28,7 @@ integrations:
     url: https://sp.freterapido.com
   viaCep:
     url: https://viacep.com.br/ws
+
+server:
+  error:
+    include-stacktrace: never
