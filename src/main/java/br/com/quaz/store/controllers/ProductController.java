@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,12 +56,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> updateProduct(@PathVariable(name = "id") final UUID id, @Valid @RequestBody final ProductRequest productRequest) {
         updateProductService.updateProduct(id, productRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid  final ProductRequest productRequest, final UriComponentsBuilder uriComponentsBuilder) {
         final var productResponse = createProductService.createProduct(productRequest);
         final var uri = getUri(uriComponentsBuilder, "/products/{id}", productResponse.getUuid());
@@ -68,6 +71,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") final UUID id) {
         deleteProductService.deleteProduct(id);
         return ResponseEntity.noContent().build();

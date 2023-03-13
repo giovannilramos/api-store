@@ -8,6 +8,7 @@ import br.com.quaz.store.services.GetCategoryService;
 import br.com.quaz.store.services.ListCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,6 +35,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<CategoryListResponse> createCategory(@RequestBody @Valid final CategoryRequest categoryRequest, final UriComponentsBuilder uriComponentsBuilder) {
         final var categoryResponse = createCategoryService.createCategory(categoryRequest);
         final var uri = getUri(uriComponentsBuilder, "/category/{id}", categoryResponse.getUuid());
@@ -41,6 +43,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteCategory(@PathVariable(name = "id") final UUID id) {
         deleteCategoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();

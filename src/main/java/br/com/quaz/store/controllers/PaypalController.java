@@ -6,6 +6,7 @@ import br.com.quaz.store.services.PaypalCapturePaymentOrderService;
 import br.com.quaz.store.services.PaypalCreateOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,11 +24,13 @@ public class PaypalController {
     private final PaypalCapturePaymentOrderService paypalCapturePaymentOrderService;
 
     @PostMapping("/order")
+    @Transactional
     public ResponseEntity<OrderResponse> createOrder(@RequestHeader(name = "Authorization") final String tokenJwt, @Valid @RequestBody final PurchaseRequest purchaseRequest) {
         return ResponseEntity.ok(paypalCreateOrderService.createOrder(tokenJwt, purchaseRequest));
     }
 
     @PostMapping("/order/complete/{id}")
+    @Transactional
     public ResponseEntity<Void> capturePaymentOrder(@PathVariable("id") final String id) {
         paypalCapturePaymentOrderService.capturePaymentOrder(id);
         return ResponseEntity.noContent().build();

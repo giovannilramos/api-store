@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ public class WishListController {
     private final GetWishListService getWishListService;
 
     @PatchMapping
+    @Transactional
     public ResponseEntity<Void> addRemoveToWishList(@RequestHeader("Authorization") final String jwtToken, @Valid @RequestBody final JsonNode productUuid) {
         addRemoveToWishListService.addRemoveToWishList(jwtToken, UUID.fromString(productUuid.get("productUuid").asText()));
         return ResponseEntity.noContent().build();

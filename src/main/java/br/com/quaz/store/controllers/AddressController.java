@@ -5,6 +5,7 @@ import br.com.quaz.store.controllers.response.AddressResponse;
 import br.com.quaz.store.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,7 @@ public class AddressController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Void> createAddress(@RequestHeader(name = "Authorization") final String jwtToken,
                                               @Valid @RequestBody final AddressRequest addressRequest,
                                               final UriComponentsBuilder uriComponentsBuilder) {
@@ -53,6 +55,7 @@ public class AddressController {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> updateAddress(@PathVariable("id") final UUID uuid, @Valid @RequestBody final AddressRequest addressRequest) {
         updateAddressService.updateAddress(uuid, addressRequest);
 
@@ -60,6 +63,7 @@ public class AddressController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteAddress(@PathVariable("id") final UUID uuid) {
         deleteAddressService.deleteAddress(uuid);
 

@@ -9,6 +9,7 @@ import br.com.quaz.store.services.UpdateUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,12 +34,14 @@ public class UserController {
     }
 
     @PutMapping
+    @Transactional
     public ResponseEntity<Void> updateUser(@RequestHeader(name = "Authorization") final String jwtToken, @Valid @RequestBody final UpdateUserRequest updateUserRequest) {
         updateUserService.updateUser(jwtToken, updateUserRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Void> createUser(@RequestBody @Valid  final UserRequest userRequest) {
         createUserService.createUser(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
