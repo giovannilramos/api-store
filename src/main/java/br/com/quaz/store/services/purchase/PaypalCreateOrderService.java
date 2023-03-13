@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.purchase;
 
 import br.com.quaz.store.controllers.request.PurchaseRequest;
 import br.com.quaz.store.controllers.response.OrderResponse;

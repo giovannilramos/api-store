@@ -9,7 +9,7 @@ import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.PaypalCreateOrderService;
+import br.com.quaz.store.services.purchase.PaypalCreateOrderService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;

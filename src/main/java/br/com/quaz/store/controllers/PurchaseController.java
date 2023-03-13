@@ -1,7 +1,7 @@
 package br.com.quaz.store.controllers;
 
 import br.com.quaz.store.controllers.response.PurchaseResponse;
-import br.com.quaz.store.services.ListPurchaseService;
+import br.com.quaz.store.services.purchase.ListPurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

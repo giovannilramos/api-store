@@ -4,7 +4,7 @@ import br.com.quaz.store.controllers.response.ProductsListResponse;
 import br.com.quaz.store.entities.User;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.GetWishListService;
+import br.com.quaz.store.services.wishlist.GetWishListService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

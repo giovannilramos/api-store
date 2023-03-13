@@ -1,7 +1,7 @@
 package br.com.quaz.store;
 
 import br.com.quaz.store.repositories.ProductRepository;
-import br.com.quaz.store.services.ListProductService;
+import br.com.quaz.store.services.product.ListProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

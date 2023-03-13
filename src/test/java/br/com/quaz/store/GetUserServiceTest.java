@@ -3,7 +3,7 @@ package br.com.quaz.store;
 import br.com.quaz.store.entities.User;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.GetUserService;
+import br.com.quaz.store.services.user.GetUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

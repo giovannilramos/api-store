@@ -1,7 +1,7 @@
 package br.com.quaz.store;
 
 import br.com.quaz.store.repositories.AddressRepository;
-import br.com.quaz.store.services.UpdateAddressService;
+import br.com.quaz.store.services.address.UpdateAddressService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

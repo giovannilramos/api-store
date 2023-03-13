@@ -3,7 +3,7 @@ package br.com.quaz.store;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.ListAddressService;
+import br.com.quaz.store.services.address.ListAddressService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

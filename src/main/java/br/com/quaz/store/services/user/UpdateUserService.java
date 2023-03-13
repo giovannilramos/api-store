@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.user;
 
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;

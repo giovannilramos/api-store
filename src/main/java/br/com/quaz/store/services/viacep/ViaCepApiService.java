@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.viacep;
 
 import br.com.quaz.store.controllers.response.ViaCepResponse;
 import br.com.quaz.store.exceptions.BadRequestException;

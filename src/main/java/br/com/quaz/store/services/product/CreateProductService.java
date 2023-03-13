@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.product;
 
 import br.com.quaz.store.controllers.response.ProductResponse;
 import br.com.quaz.store.exceptions.AlreadyExistsException;

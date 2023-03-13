@@ -2,8 +2,8 @@ package br.com.quaz.store.controllers;
 
 import br.com.quaz.store.controllers.request.PurchaseRequest;
 import br.com.quaz.store.controllers.response.OrderResponse;
-import br.com.quaz.store.services.PaypalCapturePaymentOrderService;
-import br.com.quaz.store.services.PaypalCreateOrderService;
+import br.com.quaz.store.services.purchase.PaypalCapturePaymentOrderService;
+import br.com.quaz.store.services.purchase.PaypalCreateOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

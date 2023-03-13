@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.product;
 
 import br.com.quaz.store.controllers.ProductController;
 import br.com.quaz.store.controllers.response.ProductsListResponse;

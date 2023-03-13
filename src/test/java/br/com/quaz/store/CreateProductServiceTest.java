@@ -6,7 +6,7 @@ import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.CategoryRepository;
 import br.com.quaz.store.repositories.ProductRepository;
-import br.com.quaz.store.services.CreateProductService;
+import br.com.quaz.store.services.product.CreateProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

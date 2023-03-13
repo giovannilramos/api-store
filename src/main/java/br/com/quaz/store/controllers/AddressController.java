@@ -2,7 +2,7 @@ package br.com.quaz.store.controllers;
 
 import br.com.quaz.store.controllers.request.AddressRequest;
 import br.com.quaz.store.controllers.response.AddressResponse;
-import br.com.quaz.store.services.*;
+import br.com.quaz.store.services.address.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.category;
 
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.CategoryRepository;

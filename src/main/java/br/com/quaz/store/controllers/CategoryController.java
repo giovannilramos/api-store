@@ -2,10 +2,10 @@ package br.com.quaz.store.controllers;
 
 import br.com.quaz.store.controllers.request.CategoryRequest;
 import br.com.quaz.store.controllers.response.CategoryListResponse;
-import br.com.quaz.store.services.CreateCategoryService;
-import br.com.quaz.store.services.DeleteCategoryService;
-import br.com.quaz.store.services.GetCategoryService;
-import br.com.quaz.store.services.ListCategoryService;
+import br.com.quaz.store.services.category.CreateCategoryService;
+import br.com.quaz.store.services.category.DeleteCategoryService;
+import br.com.quaz.store.services.category.GetCategoryService;
+import br.com.quaz.store.services.category.ListCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

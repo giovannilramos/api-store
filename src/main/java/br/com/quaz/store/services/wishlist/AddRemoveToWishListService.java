@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.wishlist;
 
 import br.com.quaz.store.entities.WishList;
 import br.com.quaz.store.exceptions.NotFoundException;

@@ -1,7 +1,7 @@
 package br.com.quaz.store;
 
 import br.com.quaz.store.exceptions.BadRequestException;
-import br.com.quaz.store.services.ViaCepApiService;
+import br.com.quaz.store.services.viacep.ViaCepApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

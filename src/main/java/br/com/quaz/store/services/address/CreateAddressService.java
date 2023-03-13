@@ -1,4 +1,4 @@
-package br.com.quaz.store.services;
+package br.com.quaz.store.services.address;
 
 import br.com.quaz.store.controllers.response.AddressResponse;
 import br.com.quaz.store.exceptions.NotFoundException;

@@ -7,7 +7,7 @@ import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.RolesRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.CreateUserService;
+import br.com.quaz.store.services.user.CreateUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

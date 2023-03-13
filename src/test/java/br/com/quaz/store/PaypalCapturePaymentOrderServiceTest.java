@@ -2,7 +2,7 @@
 //
 //import br.com.quaz.store.integrations.PaypalIntegration;
 //import br.com.quaz.store.repositories.PurchaseRepository;
-//import br.com.quaz.store.services.PaypalCapturePaymentOrderService;
+//import br.com.quaz.store.services.purchase.PaypalCapturePaymentOrderService;
 //import lombok.SneakyThrows;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
