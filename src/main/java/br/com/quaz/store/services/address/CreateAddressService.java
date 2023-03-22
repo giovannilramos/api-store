@@ -1,16 +1,18 @@
 package br.com.quaz.store.services.address;
 
+import br.com.quaz.store.controllers.request.AddressRequest;
 import br.com.quaz.store.controllers.response.AddressResponse;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.controllers.request.AddressRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
-import static br.com.quaz.store.services.converters.AddressConverter.*;
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressDTOToEntity;
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressDTOToResponse;
 import static br.com.quaz.store.services.converters.AddressConverter.convertAddressEntityToDTO;
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressRequestToDTO;
 
 @Service
 @RequiredArgsConstructor
