@@ -25,7 +25,7 @@ public class PaypalController {
 
     @PostMapping("/order")
     @Transactional
-    public ResponseEntity<OrderResponse> createOrder(@RequestHeader(name = "Authorization") final String tokenJwt, @Valid @RequestBody final PurchaseRequest purchaseRequest) {
+    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestHeader(name = "Authorization") final String tokenJwt, @Valid @RequestBody final PurchaseRequest purchaseRequest) {
         return ResponseEntity.ok(paypalCreateOrderService.createOrder(tokenJwt, purchaseRequest));
     }
 

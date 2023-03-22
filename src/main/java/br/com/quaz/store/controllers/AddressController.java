@@ -2,7 +2,11 @@ package br.com.quaz.store.controllers;
 
 import br.com.quaz.store.controllers.request.AddressRequest;
 import br.com.quaz.store.controllers.response.AddressResponse;
-import br.com.quaz.store.services.address.*;
+import br.com.quaz.store.services.address.CreateAddressService;
+import br.com.quaz.store.services.address.DeleteAddressService;
+import br.com.quaz.store.services.address.GetAddressService;
+import br.com.quaz.store.services.address.ListAddressService;
+import br.com.quaz.store.services.address.UpdateAddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,19 +38,19 @@ public class AddressController {
     private final GetAddressService getAddressService;
 
     @GetMapping
-    public ResponseEntity<List<AddressResponse>> listAddresses(@RequestHeader(name = "Authorization") final String jwtToken) {
+    public ResponseEntity<List<AddressResponse>> listAddresses(@Valid @RequestHeader(name = "Authorization") final String jwtToken) {
         return ResponseEntity.ok(listAddressService.listAddresses(jwtToken));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AddressResponse> getAddressById(@RequestHeader(name = "Authorization") final String jwtToken,
+    public ResponseEntity<AddressResponse> getAddressById(@Valid @RequestHeader(name = "Authorization") final String jwtToken,
                                                           @PathVariable("id") final UUID uuid) {
         return ResponseEntity.ok(getAddressService.getAddressById(uuid, jwtToken));
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Void> createAddress(@RequestHeader(name = "Authorization") final String jwtToken,
+    public ResponseEntity<Void> createAddress(@Valid @RequestHeader(name = "Authorization") final String jwtToken,
                                               @Valid @RequestBody final AddressRequest addressRequest,
                                               final UriComponentsBuilder uriComponentsBuilder) {
         final var addressResponse = createAddressService.createAddress(jwtToken, addressRequest);

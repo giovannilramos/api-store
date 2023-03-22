@@ -36,7 +36,7 @@ public class WishListController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductsListResponse>> findUser(@RequestHeader(name = "Authorization") final String jwtToken, @PageableDefault(direction = Sort.Direction.DESC) final Pageable pageable) {
+    public ResponseEntity<List<ProductsListResponse>> findUser(@Valid @RequestHeader(name = "Authorization") final String jwtToken, @PageableDefault(direction = Sort.Direction.DESC) final Pageable pageable) {
         return ResponseEntity.ok(getWishListService.getWishList(jwtToken, pageable));
     }
 }
