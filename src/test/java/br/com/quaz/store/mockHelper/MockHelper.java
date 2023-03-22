@@ -1,6 +1,11 @@
 package br.com.quaz.store.mockHelper;
 
-import br.com.quaz.store.entities.*;
+import br.com.quaz.store.entities.Address;
+import br.com.quaz.store.entities.Category;
+import br.com.quaz.store.entities.Product;
+import br.com.quaz.store.entities.Purchase;
+import br.com.quaz.store.entities.Roles;
+import br.com.quaz.store.entities.User;
 import br.com.quaz.store.enums.PaypalStatus;
 import br.com.quaz.store.enums.RoleName;
 import lombok.AccessLevel;

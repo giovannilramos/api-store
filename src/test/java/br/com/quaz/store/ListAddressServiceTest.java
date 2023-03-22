@@ -15,8 +15,12 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
-import static br.com.quaz.store.mockHelper.MockHelper.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static br.com.quaz.store.mockHelper.MockHelper.addressMock;
+import static br.com.quaz.store.mockHelper.MockHelper.token;
+import static br.com.quaz.store.mockHelper.MockHelper.userMock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
