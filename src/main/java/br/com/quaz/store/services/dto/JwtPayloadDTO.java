@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JwtPayloadDTO {
     private String sub;
+    private String iss;
     private String exp;
 }
