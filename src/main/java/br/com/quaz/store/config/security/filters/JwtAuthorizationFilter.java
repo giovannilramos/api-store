@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,7 +24,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @SneakyThrows
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) {
         try {
-            final UsernamePasswordAuthenticationToken auth = authSuccessHandler.getAuthentication(request);
+            final var auth = authSuccessHandler.getAuthentication(request);
             if (Objects.isNull(auth)) {
                 chain.doFilter(request, response);
                 return;
