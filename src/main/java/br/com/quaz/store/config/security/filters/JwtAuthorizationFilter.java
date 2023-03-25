@@ -20,12 +20,18 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final AuthSuccessHandler authSuccessHandler;
+
     @Override
     @SneakyThrows
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) {
-        UsernamePasswordAuthenticationToken auth = null;
         try {
-            auth = authSuccessHandler.getAuthentication(request);
+            final UsernamePasswordAuthenticationToken auth = authSuccessHandler.getAuthentication(request);
+            if (Objects.isNull(auth)) {
+                chain.doFilter(request, response);
+                return;
+            }
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            chain.doFilter(request, response);
         } catch (final Exception e) {
             final var responseStream = response.getOutputStream();
             final var mapper = new ObjectMapper();
@@ -37,11 +43,5 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             mapper.writeValue(responseStream, exception);
             responseStream.flush();
         }
-        if (Objects.isNull(auth)) {
-            chain.doFilter(request, response);
-            return;
-        }
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        chain.doFilter(request, response);
     }
 }
