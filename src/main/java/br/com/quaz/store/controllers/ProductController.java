@@ -57,9 +57,9 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> updateProduct(@PathVariable(name = "id") final UUID id, @Valid @RequestBody final ProductRequest productRequest) {
-        updateProductService.updateProduct(id, productRequest);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable(name = "id") final UUID id, @Valid @RequestBody final ProductRequest productRequest) {
+        final var productResponse = updateProductService.updateProduct(id, productRequest);
+        return ResponseEntity.ok(productResponse);
     }
 
     @PostMapping
@@ -67,7 +67,7 @@ public class ProductController {
     public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid  final ProductRequest productRequest, final UriComponentsBuilder uriComponentsBuilder) {
         final var productResponse = createProductService.createProduct(productRequest);
         final var uri = getUri(uriComponentsBuilder, "/products/{id}", productResponse.getUuid());
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(productResponse);
     }
 
     @DeleteMapping("/{id}")

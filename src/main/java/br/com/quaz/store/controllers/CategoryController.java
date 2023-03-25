@@ -45,7 +45,7 @@ public class CategoryController {
     public ResponseEntity<CategoryListResponse> createCategory(@RequestBody @Valid final CategoryRequest categoryRequest, final UriComponentsBuilder uriComponentsBuilder) {
         final var categoryResponse = createCategoryService.createCategory(categoryRequest);
         final var uri = getUri(uriComponentsBuilder, "/category/{id}", categoryResponse.getUuid());
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(categoryResponse);
     }
 
     @DeleteMapping("/{id}")

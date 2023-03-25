@@ -35,15 +35,15 @@ public class UserController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Void> updateUser(@Valid @RequestHeader(name = "Authorization") final String jwtToken, @Valid @RequestBody final UpdateUserRequest updateUserRequest) {
-        updateUserService.updateUser(jwtToken, updateUserRequest);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<UserResponse> updateUser(@Valid @RequestHeader(name = "Authorization") final String jwtToken, @Valid @RequestBody final UpdateUserRequest updateUserRequest) {
+        final var userResponse = updateUserService.updateUser(jwtToken, updateUserRequest);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Void> createUser(@RequestBody @Valid  final UserRequest userRequest) {
-        createUserService.createUser(userRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<UserResponse> createUser(@RequestBody @Valid  final UserRequest userRequest) {
+        final var userResponse = createUserService.createUser(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 }

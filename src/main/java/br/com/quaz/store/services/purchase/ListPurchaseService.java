@@ -1,15 +1,14 @@
 package br.com.quaz.store.services.purchase;
 
+import br.com.quaz.store.controllers.response.PurchaseResponse;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.controllers.response.PurchaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
 import static br.com.quaz.store.services.converters.PurchaseConverter.convertPurchaseDTOToResponse;
@@ -26,10 +25,10 @@ public class ListPurchaseService {
 
         final var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
-        final var purchaseList = purchaseRepository.findAllByLoggedUser(user.getEmail(), pageable);
+        final var purchaseList = purchaseRepository.findAllByUser(user, pageable);
 
         return purchaseList.stream().map(purchase ->
                         convertPurchaseDTOToResponse(convertPurchaseEntityToDTO(purchase))
-                ).collect(Collectors.toList());
+                ).toList();
     }
 }

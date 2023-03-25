@@ -21,5 +21,6 @@ public class UserDTO {
     private String username;
     private String password;
     private LocalDate birthDate;
+    private String taxId;
     private Set<Roles> roles;
 }

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static br.com.quaz.store.helper.UserHelper.decoderTokenJwt;
 import static br.com.quaz.store.services.converters.AddressConverter.convertAddressDTOToResponse;
@@ -29,6 +28,6 @@ public class ListAddressService {
         final var addressList = addressRepository.findAllByUser(user);
         return addressList.stream().map(address ->
                         convertAddressDTOToResponse(convertAddressEntityToDTO(address)))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressDTOToResponse;
+import static br.com.quaz.store.services.converters.AddressConverter.convertAddressEntityToDTO;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PurchaseConverter {
     public static Purchase convertPurchaseDTOToEntity(final PurchaseDTO purchaseDTO) {
@@ -54,10 +57,9 @@ public class PurchaseConverter {
         return PurchaseResponse.builder()
                 .uuid(purchaseDTO.getUuid())
                 .purchaseNumber(purchaseDTO.getPurchaseNumber())
-                .address(purchaseDTO.getAddress())
+                .address(convertAddressDTOToResponse(convertAddressEntityToDTO(purchaseDTO.getAddress())))
                 .status(purchaseDTO.getStatus())
                 .totalAmount(purchaseDTO.getTotalAmount())
-                .user(purchaseDTO.getUser())
                 .productList(purchaseDTO.getProductList())
                 .createdAt(purchaseDTO.getCreatedAt())
                 .updatedAt(purchaseDTO.getUpdatedAt()).build();

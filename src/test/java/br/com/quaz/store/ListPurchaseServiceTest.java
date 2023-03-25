@@ -38,7 +38,7 @@ class ListPurchaseServiceTest {
         final var pageable = PageRequest.of(0, 10);
         final var user = userMock(UUID.randomUUID(), "Giovanni", "giovannilramos55@gmail.com", "giovanni.ramos");
         final var purchase = purchaseMock(UUID.randomUUID(), String.valueOf(Math.random()), user, PaypalStatus.COMPLETED);
-        when(purchaseRepository.findAllByLoggedUser("giovannilramos55@gmail.com", pageable)).thenReturn(List.of(purchase));
+        when(purchaseRepository.findAllByUser(user, pageable)).thenReturn(List.of(purchase));
         when(userRepository.findByEmail("giovannilramos55@gmail.com")).thenReturn(Optional.of(user));
 
         final var purchaseResponse = listPurchaseService.purchaseList(token, pageable);

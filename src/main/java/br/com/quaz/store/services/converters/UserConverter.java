@@ -21,6 +21,7 @@ public class UserConverter {
                 .email(userDTO.getEmail())
                 .username(userDTO.getUsername())
                 .password(userDTO.getPassword())
+                .taxId(userDTO.getTaxId())
                 .birthDate(userDTO.getBirthDate())
                 .roles(userDTO.getRoles()).build();
     }
@@ -30,6 +31,7 @@ public class UserConverter {
                 .name(userRequest.getName())
                 .email(userRequest.getEmail())
                 .username(userRequest.getUsername())
+                .taxId(userRequest.getTaxId())
                 .password(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
                 .birthDate(userRequest.getBirthDate())
                 .roles(roles).build();
@@ -49,6 +51,7 @@ public class UserConverter {
                 .name(user.getName())
                 .email(user.getEmail())
                 .username(user.getUsername())
+                .taxId(user.getTaxId())
                 .password(user.getPassword())
                 .birthDate(user.getBirthDate())
                 .roles(user.getRoles()).build();
@@ -58,6 +61,7 @@ public class UserConverter {
         return UserResponse.builder()
                 .uuid(userDTO.getUuid())
                 .name(userDTO.getName())
+                .taxId(userDTO.getTaxId())
                 .email(userDTO.getEmail())
                 .username(userDTO.getUsername())
                 .birthDate(userDTO.getBirthDate()).build();

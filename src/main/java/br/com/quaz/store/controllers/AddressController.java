@@ -50,12 +50,12 @@ public class AddressController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Void> createAddress(@Valid @RequestHeader(name = "Authorization") final String jwtToken,
-                                              @Valid @RequestBody final AddressRequest addressRequest,
-                                              final UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<AddressResponse> createAddress(@Valid @RequestHeader(name = "Authorization") final String jwtToken,
+                                                         @Valid @RequestBody final AddressRequest addressRequest,
+                                                         final UriComponentsBuilder uriComponentsBuilder) {
         final var addressResponse = createAddressService.createAddress(jwtToken, addressRequest);
         final var uri = getUri(uriComponentsBuilder, "/address/{id}", addressResponse.getUuid());
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(addressResponse);
     }
 
     @PutMapping("/{id}")
