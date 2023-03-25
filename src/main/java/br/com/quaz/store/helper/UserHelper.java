@@ -13,16 +13,14 @@ import java.util.Base64;
 @Slf4j
 public class UserHelper {
     public static String decoderTokenJwt(final String jwtToken) {
-        final JwtPayloadDTO identification;
         try {
             final var token = jwtToken.replace("Bearer ", "");
             final var chunks = token.split("\\.");
             final var payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
-            identification = new ObjectMapper().readValue(payload, JwtPayloadDTO.class);
+            final var identification = new ObjectMapper().readValue(payload, JwtPayloadDTO.class);
+            return identification.getSub();
         } catch (final Exception e) {
             throw new UnauthorizedException("User unauthorized");
         }
-
-        return identification.getSub();
     }
 }
