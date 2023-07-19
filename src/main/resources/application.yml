@@ -24,8 +24,6 @@ integrations:
     sandbox-base-url: https://api-m.sandbox.paypal.com
     client-id: AczeFRWyiLiXvWvUL6rhlAoN7N0T-nbbredt0RjbDwQKJ2EOOIVonsDrZ7w2O07lagtUsX9vKDejQQw7
     secret-id: EOP09ivQXspfrT9BNpWaeQvaLR2drVEPk6jETz2DgziNE2kfTdR5JgfNp1jlI3WwbiwRANPOAqbOG9Po
-  shipping:
-    url: https://sp.freterapido.com
   viaCep:
     url: https://viacep.com.br/ws
 
