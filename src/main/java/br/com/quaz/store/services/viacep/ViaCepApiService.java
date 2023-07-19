@@ -16,10 +16,8 @@ public class ViaCepApiService {
 
     public ViaCepResponse getAddressByCep(final String cep) {
         try {
-            final var jsonAddress = viaCepIntegration.getCep(cep);
-            return convertViaCepDTOToResponse(convertViaCepRequestToDTO(jsonAddress.get("localidade").asText(),
-                    jsonAddress.get("uf").asText(), jsonAddress.get("complemento").asText(),
-                    jsonAddress.get("logradouro").asText(), jsonAddress.get("bairro").asText()));
+            final var viaCepWebClientResponse = viaCepIntegration.getCep(cep);
+            return convertViaCepDTOToResponse(convertViaCepRequestToDTO(viaCepWebClientResponse));
         } catch (final Exception e) {
             throw new BadRequestException("Incorrectly cep");
         }

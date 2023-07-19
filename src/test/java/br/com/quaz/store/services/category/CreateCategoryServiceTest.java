@@ -1,6 +1,5 @@
 package br.com.quaz.store.services.category;
 
-import br.com.quaz.store.controllers.request.CategoryRequest;
 import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.repositories.CategoryRepository;
 import org.junit.jupiter.api.Test;
@@ -9,16 +8,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static br.com.quaz.store.mockHelper.MockHelper.categoryMock;
+import static br.com.quaz.store.mockHelper.MockHelper.categoryRequestMock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CreateCategoryServiceTest {
-    private final CategoryRequest categoryRequest = CategoryRequest.builder().name("Teclado").build();
     @Mock
     private CategoryRepository categoryRepository;
     @InjectMocks
@@ -26,18 +24,20 @@ class CreateCategoryServiceTest {
 
     @Test
     void shouldCreateNewCategory() {
+        final var categoryMock = categoryMock("Teclado");
         when(categoryRepository.existsByNameIgnoreCase(any())).thenReturn(Boolean.FALSE);
+        when(categoryRepository.save(any())).thenReturn(categoryMock);
 
-        createCategoryService.createCategory(this.categoryRequest);
+        final var category = createCategoryService.createCategory(categoryRequestMock());
 
-        verify(categoryRepository, times(1)).save(any());
-        assertDoesNotThrow(() -> createCategoryService.createCategory(this.categoryRequest));
+        assertEquals(categoryMock.getUuid(), category.getUuid());
+        assertEquals(categoryMock.getName(), category.getName());
     }
 
     @Test
     void shouldThrowCategoryAlreadyExistsExceptionWhenTryToCreateAnAlreadyExistentCategory() {
+        final var categoryRequest = categoryRequestMock();
         when(categoryRepository.existsByNameIgnoreCase(any())).thenReturn(Boolean.TRUE);
-
-        assertThrows(AlreadyExistsException.class, () -> createCategoryService.createCategory(this.categoryRequest), "Category already exists");
+        assertThrows(AlreadyExistsException.class, () -> createCategoryService.createCategory(categoryRequest), "Category already exists");
     }
 }

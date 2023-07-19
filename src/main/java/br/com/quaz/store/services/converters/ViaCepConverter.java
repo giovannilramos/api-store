@@ -1,6 +1,7 @@
 package br.com.quaz.store.services.converters;
 
 import br.com.quaz.store.controllers.response.ViaCepResponse;
+import br.com.quaz.store.integrations.dto.ViaCepWebClientResponse;
 import br.com.quaz.store.services.dto.ViaCepDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,15 +18,13 @@ public class ViaCepConverter {
                 .build();
     }
 
-    public static ViaCepDTO convertViaCepRequestToDTO(final String city, final String state,
-                                                      final String complement, final String street,
-                                                      final String district) {
+    public static ViaCepDTO convertViaCepRequestToDTO(final ViaCepWebClientResponse viaCepWebClientResponse) {
         return ViaCepDTO.builder()
-                .city(city)
-                .state(state)
-                .complement(complement)
-                .street(street)
-                .district(district)
+                .city(viaCepWebClientResponse.getCity())
+                .state(viaCepWebClientResponse.getState())
+                .complement(viaCepWebClientResponse.getComplement())
+                .street(viaCepWebClientResponse.getStreet())
+                .district(viaCepWebClientResponse.getDistrict())
                 .build();
     }
 }

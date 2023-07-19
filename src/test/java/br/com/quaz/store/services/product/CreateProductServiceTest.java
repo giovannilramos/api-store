@@ -17,11 +17,10 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static br.com.quaz.store.mockHelper.MockHelper.productMock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,13 +49,22 @@ class CreateProductServiceTest {
 
     @Test
     void shouldCreateNewProduct() {
+        final var productMock = productMock(UUID.randomUUID(), "Teclado", "Razer", BigDecimal.TEN, false, 0, "Teclado");
         when(categoryRepository.findById(any())).thenReturn(Optional.of(category));
         when(productRepository.existsByNameIgnoreCaseAndBrand(any(), any())).thenReturn(Boolean.FALSE);
+        when(productRepository.save(any())).thenReturn(productMock);
 
-        createProductService.createProduct(productRequest);
+        final var product = createProductService.createProduct(productRequest);
 
-        verify(productRepository, times(1)).save(any());
-        assertDoesNotThrow(() -> createProductService.createProduct(productRequest));
+        assertEquals(productMock.getUuid(), product.getUuid());
+        assertEquals(productMock.getName(), product.getName());
+        assertEquals(productMock.getDescription(), product.getDescription());
+        assertEquals(productMock.getPrice(), product.getPrice());
+        assertEquals(productMock.getIsPromotion(), product.getIsPromotion());
+        assertEquals(productMock.getDiscount(), product.getDiscount());
+        assertEquals(productMock.getImage(), product.getImage());
+        assertEquals(productMock.getBrand(), product.getBrand());
+        assertEquals(productMock.getCategory().getName(), product.getCategory());
     }
 
     @Test

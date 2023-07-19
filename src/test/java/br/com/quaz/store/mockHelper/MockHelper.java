@@ -1,6 +1,9 @@
 package br.com.quaz.store.mockHelper;
 
+import br.com.quaz.store.controllers.request.AddressRequest;
+import br.com.quaz.store.controllers.request.CategoryRequest;
 import br.com.quaz.store.controllers.request.ProductRequest;
+import br.com.quaz.store.controllers.request.UserRequest;
 import br.com.quaz.store.controllers.response.ProductResponse;
 import br.com.quaz.store.controllers.response.ProductsListResponse;
 import br.com.quaz.store.entities.Address;
@@ -48,6 +51,17 @@ public class MockHelper {
                 .street("SP").complement("").build();
     }
 
+    public static AddressRequest addressRequestMock() {
+        return AddressRequest.builder()
+                .cep("12345670")
+                .city("Campinas")
+                .country("BRL")
+                .district("Bairro a")
+                .number("123")
+                .street("Rua B")
+                .build();
+    }
+
     public static Set<Roles> setRolesMock() {
         return Stream.of(roleMock(RoleName.ROLE_ADMIN), roleMock(RoleName.ROLE_USER)).collect(Collectors.toSet());
     }
@@ -60,6 +74,21 @@ public class MockHelper {
     public static Category categoryMock(final String name) {
         return Category.builder().uuid(UUID.randomUUID()).name(name)
                 .createdAt(LocalDateTime.now()).build();
+    }
+
+    public static CategoryRequest categoryRequestMock() {
+        return CategoryRequest.builder().name("Teclado").build();
+    }
+
+    public static UserRequest userRequestMock() {
+        return UserRequest.builder()
+                .name("Giovanni")
+                .birthDate(LocalDate.now())
+                .email("giovannilramos55@gmail.com")
+                .password("123")
+                .rolesUuid(Set.of(UUID.randomUUID()))
+                .username("giovanni.ramos")
+                .build();
     }
 
     public static Product productMock(final UUID uuid, final String name, final String brand,
