@@ -8,6 +8,7 @@ import br.com.quaz.store.services.product.DeleteProductService;
 import br.com.quaz.store.services.product.GetProductService;
 import br.com.quaz.store.services.product.ListProductService;
 import br.com.quaz.store.services.product.UpdateProductService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -57,6 +58,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable(name = "id") final UUID id, @Valid @RequestBody final ProductRequest productRequest) {
         final var productResponse = updateProductService.updateProduct(id, productRequest);
         return ResponseEntity.ok(productResponse);
@@ -64,6 +66,7 @@ public class ProductController {
 
     @PostMapping
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid  final ProductRequest productRequest, final UriComponentsBuilder uriComponentsBuilder) {
         final var productResponse = createProductService.createProduct(productRequest);
         final var uri = getUri(uriComponentsBuilder, "/products/{id}", productResponse.getUuid());
@@ -72,6 +75,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") final UUID id) {
         deleteProductService.deleteProduct(id);
         return ResponseEntity.noContent().build();

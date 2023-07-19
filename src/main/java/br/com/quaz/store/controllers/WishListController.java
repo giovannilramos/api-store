@@ -4,6 +4,7 @@ import br.com.quaz.store.controllers.response.ProductsListResponse;
 import br.com.quaz.store.services.wishlist.AddRemoveToWishListService;
 import br.com.quaz.store.services.wishlist.GetWishListService;
 import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/wish-list")
+@SecurityRequirement(name = "bearer-key")
 public class WishListController {
     private final AddRemoveToWishListService addRemoveToWishListService;
     private final GetWishListService getWishListService;

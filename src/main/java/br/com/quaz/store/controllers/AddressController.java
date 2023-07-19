@@ -7,6 +7,7 @@ import br.com.quaz.store.services.address.DeleteAddressService;
 import br.com.quaz.store.services.address.GetAddressService;
 import br.com.quaz.store.services.address.ListAddressService;
 import br.com.quaz.store.services.address.UpdateAddressService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ import static br.com.quaz.store.helper.UriHelper.getUri;
 @RestController
 @RequestMapping("/address")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class AddressController {
     private final ListAddressService listAddressService;
     private final CreateAddressService createAddressService;

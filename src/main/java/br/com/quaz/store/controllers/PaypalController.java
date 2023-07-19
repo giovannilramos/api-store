@@ -4,6 +4,7 @@ import br.com.quaz.store.controllers.request.PurchaseRequest;
 import br.com.quaz.store.controllers.response.OrderResponse;
 import br.com.quaz.store.services.purchase.PaypalCapturePaymentOrderService;
 import br.com.quaz.store.services.purchase.PaypalCreateOrderService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/paypal")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class PaypalController {
     private final PaypalCreateOrderService paypalCreateOrderService;
     private final PaypalCapturePaymentOrderService paypalCapturePaymentOrderService;

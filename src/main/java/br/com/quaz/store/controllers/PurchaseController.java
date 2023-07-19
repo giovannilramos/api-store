@@ -2,6 +2,7 @@ package br.com.quaz.store.controllers;
 
 import br.com.quaz.store.controllers.response.PurchaseResponse;
 import br.com.quaz.store.services.purchase.ListPurchaseService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/purchase")
+@SecurityRequirement(name = "bearer-key")
 public class PurchaseController {
     private final ListPurchaseService listPurchaseService;
 

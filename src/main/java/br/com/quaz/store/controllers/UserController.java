@@ -6,6 +6,7 @@ import br.com.quaz.store.controllers.response.UserResponse;
 import br.com.quaz.store.services.user.CreateUserService;
 import br.com.quaz.store.services.user.GetUserService;
 import br.com.quaz.store.services.user.UpdateUserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,14 @@ public class UserController {
     private final GetUserService getUserService;
 
     @GetMapping
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<UserResponse> findUser(@Valid @RequestHeader(name = "Authorization") final String jwtToken) {
         return ResponseEntity.ok(getUserService.findLoggedUser(jwtToken));
     }
 
     @PutMapping
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<UserResponse> updateUser(@Valid @RequestHeader(name = "Authorization") final String jwtToken, @Valid @RequestBody final UpdateUserRequest updateUserRequest) {
         final var userResponse = updateUserService.updateUser(jwtToken, updateUserRequest);
         return ResponseEntity.ok(userResponse);

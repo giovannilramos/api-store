@@ -6,6 +6,7 @@ import br.com.quaz.store.services.category.CreateCategoryService;
 import br.com.quaz.store.services.category.DeleteCategoryService;
 import br.com.quaz.store.services.category.GetCategoryService;
 import br.com.quaz.store.services.category.ListCategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +43,7 @@ public class CategoryController {
 
     @PostMapping
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<CategoryListResponse> createCategory(@RequestBody @Valid final CategoryRequest categoryRequest, final UriComponentsBuilder uriComponentsBuilder) {
         final var categoryResponse = createCategoryService.createCategory(categoryRequest);
         final var uri = getUri(uriComponentsBuilder, "/category/{id}", categoryResponse.getUuid());
@@ -50,6 +52,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Void> deleteCategory(@PathVariable(name = "id") final UUID id) {
         deleteCategoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
