@@ -1,8 +1,7 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services.category;
 
 import br.com.quaz.store.entities.Category;
 import br.com.quaz.store.repositories.CategoryRepository;
-import br.com.quaz.store.services.category.ListCategoryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

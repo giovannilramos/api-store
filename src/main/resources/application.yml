@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/qz_store?useTimezone=true&serverTimezone=America/Sao_Paulo
     username: root
-    password:
+    password: root
     tomcat:
       test-while-idle: true
       validation-query: SELECT 1

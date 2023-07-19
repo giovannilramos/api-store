@@ -1,4 +1,4 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services.user;
 
 import br.com.quaz.store.controllers.request.UserRequest;
 import br.com.quaz.store.entities.Roles;
@@ -7,7 +7,6 @@ import br.com.quaz.store.exceptions.AlreadyExistsException;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.RolesRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.user.CreateUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

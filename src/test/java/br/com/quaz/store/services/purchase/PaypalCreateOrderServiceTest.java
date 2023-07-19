@@ -1,4 +1,4 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services.purchase;
 
 import br.com.quaz.store.controllers.request.ProductPurchaseRequest;
 import br.com.quaz.store.controllers.request.PurchaseRequest;
@@ -9,7 +9,6 @@ import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.purchase.PaypalCreateOrderService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -58,64 +57,65 @@ class PaypalCreateOrderServiceTest {
         final var product = productMock(UUID.randomUUID(), "Teclado", "Razer", BigDecimal.TEN, false, 0, "Teclado");
         final var purchase = purchaseMock(UUID.randomUUID(), id, user, PaypalStatus.CREATED);
         final var mapper = new ObjectMapper();
-        final var jsonCreateOrderResponse = "{\n" +
-                "    \"id\": \"14L698333P1789131\",\n" +
-                "    \"intent\": \"CAPTURE\",\n" +
-                "    \"status\": \"CREATED\",\n" +
-                "    \"purchase_units\": [\n" +
-                "        {\n" +
-                "            \"reference_id\": \"default\",\n" +
-                "            \"amount\": {\n" +
-                "                \"currency_code\": \"BRL\",\n" +
-                "                \"value\": \"200.00\",\n" +
-                "                \"breakdown\": {\n" +
-                "                    \"item_total\": {\n" +
-                "                        \"currency_code\": \"BRL\",\n" +
-                "                        \"value\": \"200.00\"\n" +
-                "                    }\n" +
-                "                }\n" +
-                "            },\n" +
-                "            \"payee\": {\n" +
-                "                \"email_address\": \"john_merchant@example.com\",\n" +
-                "                \"merchant_id\": \"C7CYMKZDG8D6E\"\n" +
-                "            },\n" +
-                "            \"items\": [\n" +
-                "                {\n" +
-                "                    \"name\": \"T-Shirt\",\n" +
-                "                    \"unit_amount\": {\n" +
-                "                        \"currency_code\": \"BRL\",\n" +
-                "                        \"value\": \"200.00\"\n" +
-                "                    },\n" +
-                "                    \"quantity\": \"1\",\n" +
-                "                    \"description\": \"Green XL\"\n" +
-                "                }\n" +
-                "            ]\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"create_time\": \"2022-12-19T14:34:09Z\",\n" +
-                "    \"links\": [\n" +
-                "        {\n" +
-                "            \"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/14L698333P1789131\",\n" +
-                "            \"rel\": \"self\",\n" +
-                "            \"method\": \"GET\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=14L698333P1789131\",\n" +
-                "            \"rel\": \"approve\",\n" +
-                "            \"method\": \"GET\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/14L698333P1789131\",\n" +
-                "            \"rel\": \"update\",\n" +
-                "            \"method\": \"PATCH\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/14L698333P1789131/capture\",\n" +
-                "            \"rel\": \"capture\",\n" +
-                "            \"method\": \"POST\"\n" +
-                "        }\n" +
-                "    ]\n" +
-                "}";
+        final var jsonCreateOrderResponse = """
+                {
+                    "id": "14L698333P1789131",
+                    "intent": "CAPTURE",
+                    "status": "CREATED",
+                    "purchase_units": [
+                        {
+                            "reference_id": "default",
+                            "amount": {
+                                "currency_code": "BRL",
+                                "value": "200.00",
+                                "breakdown": {
+                                    "item_total": {
+                                        "currency_code": "BRL",
+                                        "value": "200.00"
+                                    }
+                                }
+                            },
+                            "payee": {
+                                "email_address": "john_merchant@example.com",
+                                "merchant_id": "C7CYMKZDG8D6E"
+                            },
+                            "items": [
+                                {
+                                    "name": "T-Shirt",
+                                    "unit_amount": {
+                                        "currency_code": "BRL",
+                                        "value": "200.00"
+                                    },
+                                    "quantity": "1",
+                                    "description": "Green XL"
+                                }
+                            ]
+                        }
+                    ],
+                    "create_time": "2022-12-19T14:34:09Z",
+                    "links": [
+                        {
+                            "href": "https://api.sandbox.paypal.com/v2/checkout/orders/14L698333P1789131",
+                            "rel": "self",
+                            "method": "GET"
+                        },
+                        {
+                            "href": "https://www.sandbox.paypal.com/checkoutnow?token=14L698333P1789131",
+                            "rel": "approve",
+                            "method": "GET"
+                        },
+                        {
+                            "href": "https://api.sandbox.paypal.com/v2/checkout/orders/14L698333P1789131",
+                            "rel": "update",
+                            "method": "PATCH"
+                        },
+                        {
+                            "href": "https://api.sandbox.paypal.com/v2/checkout/orders/14L698333P1789131/capture",
+                            "rel": "capture",
+                            "method": "POST"
+                        }
+                    ]
+                }""";
 
         when(addressRepository.findById(any(UUID.class))).thenReturn(Optional.of(address));
         when(userRepository.findByEmail("giovannilramos55@gmail.com")).thenReturn(Optional.of(user));

@@ -1,10 +1,9 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services.purchase;
 
 import br.com.quaz.store.enums.PaypalStatus;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.PurchaseRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.purchase.ListPurchaseService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

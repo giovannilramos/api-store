@@ -1,4 +1,4 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services;
 
 import br.com.quaz.store.exceptions.UnauthorizedException;
 import org.junit.jupiter.api.Test;

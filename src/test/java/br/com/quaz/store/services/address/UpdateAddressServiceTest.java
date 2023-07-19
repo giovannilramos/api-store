@@ -1,8 +1,8 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services.address;
 
+import br.com.quaz.store.controllers.request.AddressRequest;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.AddressRepository;
-import br.com.quaz.store.services.address.DeleteAddressService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,28 +22,29 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DeleteAddressServiceTest {
+class UpdateAddressServiceTest {
     @Mock
     private AddressRepository addressRepository;
     @InjectMocks
-    private DeleteAddressService deleteAddressService;
+    private UpdateAddressService updateAddressService;
 
     @Test
-    void shouldDeleteAddress() {
-        final var user = userMock(UUID.randomUUID(), "Giovanni Ramos",
-                "giovannilramos55@gmail.com", "giovanni.ramos");
+    void shouldUpdateAddressData() {
+        final var addressRequest = AddressRequest.builder().build();
+        final var user = userMock(UUID.randomUUID(), "Giovanni", "test@test.com", "tester");
         final var address = addressMock(UUID.randomUUID(), user);
+
         when(addressRepository.findById(any())).thenReturn(Optional.of(address));
 
-        deleteAddressService.deleteAddress(any());
-
-        verify(addressRepository, times(1)).delete(address);
-        assertDoesNotThrow(() -> deleteAddressService.deleteAddress(any()));
+        assertDoesNotThrow(() -> updateAddressService.updateAddress(UUID.randomUUID(), addressRequest));
+        verify(addressRepository, times(1)).save(any());
     }
 
     @Test
-    void shouldThrowAddressNotFoundException() {
+    void shouldThrowNotFoundException() {
+        final var addressRequest = AddressRequest.builder().build();
         final var uuid = UUID.randomUUID();
-        assertThrows(NotFoundException.class, () -> deleteAddressService.deleteAddress(uuid), "Address not found");
+        when(addressRepository.findById(any())).thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, () -> updateAddressService.updateAddress(uuid, addressRequest));
     }
 }

@@ -1,10 +1,9 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services.address;
 
 import br.com.quaz.store.controllers.request.AddressRequest;
 import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.AddressRepository;
 import br.com.quaz.store.repositories.UserRepository;
-import br.com.quaz.store.services.address.CreateAddressService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

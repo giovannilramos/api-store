@@ -1,5 +1,8 @@
 package br.com.quaz.store.mockHelper;
 
+import br.com.quaz.store.controllers.request.ProductRequest;
+import br.com.quaz.store.controllers.response.ProductResponse;
+import br.com.quaz.store.controllers.response.ProductsListResponse;
 import br.com.quaz.store.entities.Address;
 import br.com.quaz.store.entities.Category;
 import br.com.quaz.store.entities.Product;
@@ -74,5 +77,43 @@ public class MockHelper {
                 .status(status).address(addressMock(UUID.randomUUID(), user)).user(user)
                 .productList(List.of(product)).createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now()).build();
+    }
+
+    public static ProductResponse productResponseMock(final Product product) {
+        return ProductResponse.builder()
+                .uuid(product.getUuid())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .isPromotion(product.getIsPromotion())
+                .discount(product.getDiscount())
+                .image(product.getImage())
+                .brand(product.getBrand())
+                .category(product.getCategory().getName())
+                .build();
+    }
+
+    public static ProductsListResponse productsListResponseMock(final Product product) {
+        return ProductsListResponse.builder()
+                .uuid(product.getUuid())
+                .name(product.getName())
+                .price(product.getPrice())
+                .isPromotion(product.getIsPromotion())
+                .discount(product.getDiscount())
+                .image(product.getImage())
+                .build();
+    }
+
+    public static ProductRequest productRequestMock(final Product product) {
+        return ProductRequest.builder()
+                .name(product.getName())
+                .brand(product.getBrand())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .isPromotion(product.getIsPromotion())
+                .discount(product.getDiscount())
+                .image(product.getImage())
+                .categoryUuid(product.getCategory().getUuid())
+                .build();
     }
 }

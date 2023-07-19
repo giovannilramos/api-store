@@ -1,4 +1,4 @@
-package br.com.quaz.store;
+package br.com.quaz.store.services.wishlist;
 
 import br.com.quaz.store.entities.Product;
 import br.com.quaz.store.entities.User;
@@ -7,7 +7,6 @@ import br.com.quaz.store.exceptions.NotFoundException;
 import br.com.quaz.store.repositories.ProductRepository;
 import br.com.quaz.store.repositories.UserRepository;
 import br.com.quaz.store.repositories.WishListRepository;
-import br.com.quaz.store.services.wishlist.AddRemoveToWishListService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
